@@ -1,0 +1,236 @@
+body{
+font-family:'Poppins',sans-serif;
+background:#f4f6f9;
+}
+
+/* Navbar */
+
+.custom-navbar{
+background:#c1c3c7;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+.profile-btn{
+  background:#555;        /* base color */
+  color:white;
+  border:none;
+  transition: all 0.3s ease;  /* smooth animation */
+}
+
+.profile-btn:hover{
+  background:#fdfbfb;        /* slightly darker on hover */
+  transform: translateY(-2px); /* small lift effect */
+  color: #111111;
+}
+
+.profile-btn:active{
+  background:#333;        /* slightly darker on click */
+  transform: translateY(0);  /* button goes back to original position */
+}
+/* Hero */
+
+.hero-section{
+padding:120px 0;
+background:linear-gradient(135deg,#93959c,#b6b7bb);
+color:#222;
+}
+
+.hero-btn{
+background:#444;
+color:white;
+font-weight:500;
+border:none;
+}
+
+.hero-btn:hover{
+background:#222;
+}
+
+/* Features */
+
+.features-section{
+padding:80px 0;
+}
+
+.feature-card{
+background:white;
+padding:30px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 5px 20px rgba(240, 237, 237, 0.89);
+transition:0.3s;
+cursor:pointer;
+}
+
+.feature-card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+.feature-card i{
+font-size:40px;
+color:#6c757d;
+margin-bottom:10px;
+}
+
+/* Teachers */
+
+.teachers-section{
+padding:80px 0;
+display:none;
+}
+
+/* Profile */
+
+.profile-img{
+width:120px;
+height:120px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:10px;
+}
+/* ================================
+   Teachers Table - Black/Grey/White
+================================ */
+
+/* Section */
+.teachers-section {
+    display: none; /* hidden by default, shown via JS */
+    padding: 50px 0;
+    background-color: #f4f6f9; /* same as body background */
+}
+
+/* Header */
+.teachers-section h2 {
+    color: #111; /* dark black for heading */
+    font-weight: 700;
+    font-size: 28px;
+}
+
+/* Back Button */
+.teachers-section .btn-secondary {
+    background-color: #555; /* dark grey button */
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.teachers-section .btn-secondary:hover {
+    background-color: #333; /* darker on hover */
+}
+
+/* Card */
+.teachers-section .card {
+    background-color: #fff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* subtle shadow */
+}
+
+.teachers-section .card-body {
+    padding: 20px;
+}
+
+/* Table */
+.teachers-section table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Table Head */
+.teachers-section table thead {
+    background-color: #111; /* black header */
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Table Cells */
+.teachers-section table th,
+.teachers-section table td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ccc; /* light grey divider */
+    vertical-align: middle;
+}
+
+/* Table Body Rows */
+.teachers-section table tbody tr {
+    background-color: #fff; /* white row */
+    transition: all 0.3s ease;
+}
+
+.teachers-section table tbody tr:hover {
+    background-color: #e0e0e0; /* light grey hover */
+}
+
+/* Action Buttons */
+.teachers-section table .btn-warning {
+    background-color: #777; /* grey instead of orange */
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.teachers-section table .btn-warning:hover {
+    background-color: #555; /* darker grey hover */
+}
+
+.teachers-section table .btn-danger {
+    background-color: #333; /* black delete button */
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.teachers-section table .btn-danger:hover {
+    background-color: #111; /* darker black on hover */
+}
+
+/* Teacher Images */
+.teachers-section table img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .teachers-section table th,
+    .teachers-section table td {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    .teachers-section h2 {
+        font-size: 24px;
+    }
+}
+/* Logout Button - Grey default, Red on click */
+form[action*="logout"] .btn-danger {
+    background-color: #555; /* grey default */
+    color: #fff;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+form[action*="logout"] .btn-danger:hover {
+    background-color: #777; /* lighter grey on hover */
+}
+
+form[action*="logout"] .btn-danger:active {
+    background-color: #e74c3c; /* red when clicked */
+    color: #fff;
+    transform: translateY(1px); /* optional small press effect */
+}
