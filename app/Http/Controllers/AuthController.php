@@ -2,123 +2,96 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
-
-    // =========================
-    // Register Form
-    // =========================
     public function showRegister()
     {
-        $roles = Role::all();
+        $roles = Role::whereIn('name', ['Principal', 'Teacher', 'Student'])->get();
         return view('auth.register', compact('roles'));
     }
 
-    // =========================
-    // Register User
-    // =========================
-   public function register(Request $request)
-{
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', Rule::in(['Principal', 'Teacher', 'Student'])],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'dob' => ['nullable', 'date'],
+            'gender' => ['nullable', Rule::in(['male', 'female', 'other'])],
+            'father_name' => ['nullable', 'string', 'max:255'],
+            'mobile' => ['nullable', 'regex:/^[0-9]{10}$/'],
+            'address' => ['nullable', 'string', 'max:1000'],
+        ]);
 
-$request->validate([
-'name' => 'required|string|max:255',
-'email' => 'required|email|unique:users,email',
-'password' => 'required|min:6|confirmed',
-'role' => 'required',
-'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-'dob' => 'required|date',
-'gender' => 'required|in:male,female,other',
-'father_name' => 'required|string|max:255',
-'mobile' => 'nullable|string|regex:/^[0-9]{10}$/',
-'address' => 'required|string|max:500',
-]);
+        $imagePath = $request->hasFile('image')
+            ? $request->file('image')->store('profile_images', 'public')
+            : null;
 
-$imagePath = null;
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'dob' => $request->dob,
+            'gender' => $request->gender,
+            'father_name' => $request->father_name,
+            'mobile' => $request->mobile,
+            'address' => $request->address,
+            'image' => $imagePath,
+        ]);
 
-if ($request->hasFile('image')) {
+        $user->assignRole($request->role);
 
-$imagePath = $request->file('image')
-->store('profile_images','public');
+        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
+    }
 
-}
-
-$user = User::create([
-
-'name' => $request->name,
-'email' => $request->email,
-'password' => Hash::make($request->password),
-'role' => $request->role,
-'dob' => $request->dob,
-'gender' => $request->gender,
-'father_name' => $request->father_name,
-'mobile' => $request->mobile,
-'address' => $request->address,
-'image' => $imagePath
-
-]);
-
-$user->assignRole($request->role);
-
-return redirect()->route('login')
-->with('success','Registration successful. Please login.');
-
-}
-    // =========================
-    // Login Form
-    // =========================
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    // =========================
-    // Login Process
-    // =========================
     public function login(Request $request)
     {
-
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
         ]);
 
-        if (Auth::attempt($request->only('email','password'))) {
-
-            $request->session()->regenerate();
-
-            $user = Auth::user();
-
-            if ($user->role == 'Principal') {
-                return redirect()->route('principal.dashboard');
-            }
-
-            if ($user->role == 'Teacher') {
-                return redirect()->route('teacher.dashboard');
-            }
-
-            if ($user->role == 'Student') {
-                return redirect()->route('student.dashboard');
-            }
-
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return back()->withInput()->with('error', 'Invalid email or password.');
         }
 
-        return back()->with('error', 'Invalid email or password');
-    }
+        $request->session()->regenerate();
+       $user = Auth::user();
 
-    // =========================
-    // Logout
-    // =========================
-    public function logout(Request $request)
-    {
+switch ($user->getRoleNames()->first()) {
+    case 'Principal':
+        return redirect()->route('principal.dashboard');
+    case 'Teacher':
+        return redirect()->route('teacher.dashboard');
+    case 'Student':
+        return redirect()->route('student.dashboard');
+    default:
+        Auth::logout();
+        return redirect()->route('login')->with('error', 'No valid role assigned.');
+}
 
         Auth::logout();
+        return redirect()->route('login')->with('error', 'No valid role assigned.');
+    }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

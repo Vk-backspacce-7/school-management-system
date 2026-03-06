@@ -3,7 +3,7 @@
 <head>
 <title>Edit Teacher</title>
  
-
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -26,80 +26,36 @@
 
 @endif
 
-<form action="/teacher/update/{{ $teacher->id }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('principal.teacher.update', $teacher->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 
-@csrf
+    <input type="text" name="name" value="{{ old('name', $teacher->name) }}">
+    <input type="email" name="email" value="{{ old('email', $teacher->email) }}">
+    <input type="date" name="dob" value="{{ old('dob', $teacher->dob) }}">
 
-<p>
-<label>Name</label>
-<input type="text" name="name" value="{{ $teacher->name }}">
-</p>
+    <select name="gender">
+        <option value="">Select gender</option>
+        <option value="male" @selected(old('gender', $teacher->gender)==='male')>Male</option>
+        <option value="female" @selected(old('gender', $teacher->gender)==='female')>Female</option>
+        <option value="other" @selected(old('gender', $teacher->gender)==='other')>Other</option>
+    </select>
 
-<p>
-<label>Email</label>
-<input type="email" name="email" value="{{ $teacher->email }}">
-</p>
+    <input type="text" name="father_name" value="{{ old('father_name', $teacher->father_name) }}">
+    <input type="text" name="mobile" value="{{ old('mobile', $teacher->mobile) }}">
+    <textarea name="address">{{ old('address', $teacher->address) }}</textarea>
 
-<p>
-<label>Gender</label>
+    @if($teacher->image)
+        <img src="{{ asset('storage/'.$teacher->image) }}" width="80">
+    @endif
+    <input type="file" name="image">
 
-<select name="gender">
+    <input type="password" name="password" placeholder="New password (optional)">
+    <input type="password" name="password_confirmation" placeholder="Confirm new password">
 
-<option value="male" {{ $teacher->gender == 'male' ? 'selected' : '' }}>Male</option>
-
-<option value="female" {{ $teacher->gender == 'female' ? 'selected' : '' }}>Female</option>
-
-<option value="other" {{ $teacher->gender == 'other' ? 'selected' : '' }}>Other</option>
-
-</select>
-
-</p>
-<hr>
-
-    <h3>Change Password (Optional)</h3>
-
-    <p>
-        <label>Old Password</label><br>
-        <input type="password" name="old_password">
-    </p>
-
-    <p>
-        <label>New Password</label><br>
-        <input type="password" name="new_password">
-    </p>
-
-    <p>
-        <label>Confirm Password</label><br>
-        <input type="password" name="confirm_password">
-    </p>
-
-<p>
-
-<label>Current Image</label><br>
-
-@if($teacher->image)
-
-<img src="{{ asset('images/'.$teacher->image) }}" width="80">
-
-@endif
-
-</p>
-
-<p>
-
-<label>Change Image</label>
-
-<input type="file" name="image">
-
-</p>
-
-<button type="submit">Update Teacher</button>
-
-<br><br>
-
-<a href="/principal/dashboard">Back</a>
-
+    <button type="submit">Update Teacher</button>
 </form>
+
 
 </div>
 

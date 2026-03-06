@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Login</title> 
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -21,32 +22,18 @@
 @endforeach
 </ul>
 @endif
+@if(session('error'))
+    <p style="color:red">{{ session('error') }}</p>
+@endif
 
-<form action="/login" method="POST">
-
-@csrf
-
-<p>
-<label>Email</label>
-<input type="email" name="email" value="{{ old('email') }}" required>
-</p>
-
-<p>
-<label>Password</label>
-<input type="password" name="password" required>
-</p>
-
-<button type="submit">Login</button>
-
-<br><br>
-
-<p>
-Don't have account? 
-<a href="/register">Register</a>
-</p>
-
+<form action="{{ route('login.store') }}" method="POST">
+    @csrf
+    <input type="email" name="email" value="{{ old('email') }}" required>
+    <input type="password" name="password" required>
+    <button type="submit">Login</button>
 </form>
-
+<br><br>
+<p>Don't have an account? <a href="{{ route('register') }}">Register here</a></p>
 </div>
 
 </body>

@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Student Dashboard</title>
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -27,55 +28,19 @@
 <div class="card">
 
 <div class="profile">
-
 @if($student->image)
-<img src="{{ asset('uploads/students/'.$student->image) }}">
-@else
-<img src="https://via.placeholder.com/120">
+    <img src="{{ asset('storage/'.$student->image) }}" width="120">
 @endif
 
 <h2>{{ $student->name }}</h2>
-
+<p>{{ $student->email }}</p>
+<p>{{ $student->father_name }}</p>
+<p>{{ $student->mobile }}</p>
+<p>{{ $student->gender }}</p>
+<p>{{ $student->dob }}</p>
+<p>{{ $student->address }}</p>
 </div>
-
-<table>
-
-<tr>
-<td class="label">Father Name</td>
-<td>{{ $student->father_name }}</td>
-</tr>
-
-<tr>
-<td class="label">Class</td>
-<td>{{ $student->class }}</td>
-</tr>
-
-<tr>
-<td class="label">Mobile</td>
-<td>{{ $student->mobile }}</td>
-</tr>
-
-<tr>
-<td class="label">Email</td>
-<td>{{ $student->email }}</td>
-</tr>
-
-<tr>
-<td class="label">Gender</td>
-<td>{{ $student->gender }}</td>
-</tr>
-
-<tr>
-<td class="label">Age</td>
-<td>{{ $student->age }}</td>
-</tr>
-
-<tr>
-<td class="label">Address</td>
-<td>{{ $student->address }}</td>
-</tr>
-
-</table>
+ 
 
 </div>
 

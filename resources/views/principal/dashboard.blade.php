@@ -3,60 +3,7 @@
 <head>
 
 <title>Principal Dashboard</title>
-
-<style>
-
-body{
-font-family: Arial;
-background:#f4f4f4;
-margin:0;
-padding:0;
-}
-
-.container{
-width:95%;
-margin:auto;
-margin-top:30px;
-}
-
-.profile{
-background:white;
-padding:20px;
-border-radius:5px;
-margin-bottom:20px;
-}
-
-table{
-width:100%;
-border-collapse: collapse;
-background:white;
-}
-
-th,td{
-padding:10px;
-border:1px solid #ccc;
-text-align:center;
-}
-
-th{
-background:#2c3e50;
-color:white;
-}
-
-img{
-border-radius:50%;
-}
-
-.logout-btn{
-background:red;
-color:white;
-padding:8px 15px;
-border:none;
-cursor:pointer;
-}
-
-</style>
-
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -71,15 +18,15 @@ cursor:pointer;
 @csrf
 <button class="logout-btn">Logout</button>
 </form>
-
+ 
 <p><strong>Name :</strong> {{ auth()->user()->name }}</p>
+ 
 <p><strong>Email :</strong> {{ auth()->user()->email }}</p>
 <p><strong>Gender :</strong> {{ auth()->user()->gender }}</p>
 <p><strong>Mobile :</strong> {{ auth()->user()->mobile }}</p>
 <p><strong>DOB :</strong> {{ auth()->user()->dob }}</p>
 <p><strong>Father Name :</strong> {{ auth()->user()->father_name }}</p>
 <p><strong>Address :</strong> {{ auth()->user()->address }}</p>
-
 @if(auth()->user()->image)
 <img src="{{ asset('storage/'.auth()->user()->image) }}" width="80">
 @endif
@@ -127,7 +74,7 @@ cursor:pointer;
 
 <td>
 
-<a href="{{ route('principal.teacher.edit',$teacher->id) }}">Edit</a>
+<button <a href="{{ route('principal.teacher.edit',$teacher->id) }}">Edit</a></button>
 
 |
 
