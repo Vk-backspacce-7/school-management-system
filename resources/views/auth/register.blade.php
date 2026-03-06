@@ -2,42 +2,7 @@
 <html>
 <head>
 <title>Register</title>
- 
-<style>
-body{
-font-family: Arial;
-background:#f4f4f4;
-}
-
-.container{
-width:80%;
-margin:auto;
-background:white;
-padding:20px;
-margin-top:20px;
-}
-
-h2{
-background:#2c3e50;
-color:white;
-padding:10px;
-}
-
-input,select,textarea{
-width:100%;
-padding:8px;
-margin-top:5px;
-margin-bottom:15px;
-}
-
-button{
-background:green;
-color:white;
-padding:10px 20px;
-border:none;
-cursor:pointer;
-}
-</style>
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -57,72 +22,43 @@ cursor:pointer;
 @endforeach
 </ul>
 @endif
+<form action="{{ route('register.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <label for="name">Name</label>
+    <input type="text" name="name" value="{{ old('name') }}" placeholder="Name">
+     <label for="dob">Date of Birth</label>
+    <input type="date" name="dob" value="{{ old('dob') }}">
+         <label for="gender">Gender</label>
+    <label><input type="radio" name="gender" value="male" @checked(old('gender')==='male')> Male</label>
+    <label><input type="radio" name="gender" value="female" @checked(old('gender')==='female')> Female</label>
+    <label><input type="radio" name="gender" value="other" @checked(old('gender')==='other')> Other</label>
+        <label for="father_name">Father Name</label>
+    <input type="text" name="father_name" value="{{ old('father_name') }}" placeholder="Father Name">
+     <label for="email">email</label>
+    <input type="email" name="email" value="{{ old('email') }}"  >
+     <label for="mobile">mobile</label>
+    <input type="tel" name="mobile" value="{{ old('mobile') }}" placeholder="10-digit mobile">
+     <label for="address">address</label>
+    <textarea name="address">{{ old('address') }}</textarea>
 
-<form action="/register" method="POST" enctype="multipart/form-data">
-@csrf
+    <input type="file" name="image">
+    <label for="password">Password</label>
+    <input type="password" name="password"  >
+    <label for="password_confirmation">Confirm Password</label>
+    <input type="password" name="password_confirmation"  >
+    <label for="role">Role</label>
+    <select name="role"  >
+        <option value="">-- Select Role --</option>
+        @foreach($roles as $role)
+            <option value="{{ $role->name }}" @selected(old('role') === $role->name)>{{ $role->name }}</option>
+        @endforeach
+    </select>
 
- 
-
-<label>  Name</label>
-<input type="text" name="name" value="{{ old('name') }}">
-
- 
-
-<label>Date of Birth</label>
-<input type="date" name="dob" value="{{ old('dob') }}">
-
-<label>Gender</label>
-
-<input type="radio" name="gender" value="male" {{ old('gender')=='male'?'checked':'' }}> Male
-<input type="radio" name="gender" value="female" {{ old('gender')=='female'?'checked':'' }}> Female
-<input type="radio" name="gender" value="other" {{ old('gender')=='other'?'checked':'' }}> Other
-
-<br><br>
-
-<label>Father Name</label>
-<input type="text" name="father_name" value="{{ old('father_name') }}">
-
-
-<label>Email</label>
-<input type="email" name="email" value="{{ old('email') }}" required>
-
-<label>Mobile Number</label>
-<input type="tel" name="mobile" value="{{ old('mobile') }}">
- 
-
-<label> Address</label>
-<textarea name=" address">{{ old('permanent_address') }}</textarea>
- 
-<label>Upload Photo</label>
-<input type="file" name="image">
-
-<label>Password</label>
-<input type="password" name="password" required>
-
-<label>Confirm Password</label>
-<input type="password" name="password_confirmation" required>
-
-<label>Select Role</label>
-<select name="role" required>
-
-<option value="">-- Select Role --</option>
-
-@foreach($roles as $role)
-
-<option value="{{ $role->name }}"
-{{ old('role')==$role->name?'selected':'' }}>
-{{ $role->name }}
-</option>
-
-@endforeach
-
-</select>
-
-<br><br>
-
-<button type="submit">Register</button>
-
+    <button type="submit">Register</button>
 </form>
+ 
+<br><br>
+<p>Back to login ➡️<a href="{{ route('login') }}"> login here</a></p>
 
 </div>
 

@@ -1,101 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Register Student</title>
- 
+    <title>Register Student</title>
+ <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-
 <body>
 
 <div class="container">
+    <h2>Register Student</h2>
 
-<h2>Register Student</h2>
+    <!-- Success Message -->
+    @if(session('success'))
+        <p class="success">{{ session('success') }}</p>
+    @endif
 
-@if($errors->any())
-<ul style="color:red">
-@foreach($errors->all() as $error)
-<li>{{ $error }}</li>
-@endforeach
-</ul>
-@endif
+    <!-- Validation Errors -->
+    @if($errors->any())
+        <ul class="error">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
 
-@if(session('success'))
-<p style="color:green">{{ session('success') }}</p>
-@endif
+    <!-- Registration Form -->
+    <form action="{{ route('teacher.student.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-<form action="/student/store" method="POST" enctype="multipart/form-data">
+        <label>Name</label>
+        <input type="text" name="name" value="{{ old('name') }}" placeholder="Student Name" required>
 
-@csrf
+        <label>Father Name</label>
+        <input type="text" name="father_name" value="{{ old('father_name') }}" placeholder="Father Name">
+ 
 
-<p>
-<label>Name</label>
-<input type="text" name="name" value="{{ old('name') }}">
-</p>
+        <label>Gender</label>
+        <label><input type="radio" name="gender" value="male" @checked(old('gender')==='male')> Male</label>
+        <label><input type="radio" name="gender" value="female" @checked(old('gender')==='female')> Female</label>
+        <label><input type="radio" name="gender" value="other" @checked(old('gender')==='other')> Other</label>
 
-<p>
-<label>Father Name</label>
-<input type="text" name="father_name" value="{{ old('father_name') }}">
-</p>
+        <label>Mobile</label>
+        <input type="text" name="mobile" value="{{ old('mobile') }}" placeholder="10-digit mobile">
 
-<p>
-<label>Class</label>
-<input type="text" name="class" value="{{ old('class') }}">
-</p>
+        <label>Address</label>
+        <textarea name="address" placeholder="Address">{{ old('address') }}</textarea>
 
-<p>
-<label>Mobile</label>
-<input type="text" name="mobile" value="{{ old('mobile') }}">
-</p>
+        <label>Email</label>
+        <input type="email" name="email" value="{{ old('email') }}" placeholder="Email" required>
 
-<p>
-<label>Address</label>
-<textarea name="address">{{ old('address') }}</textarea>
-</p>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Password" required>
 
-<p>
-<label>Gender</label><br>
+        <label>Confirm Password</label>
+        <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
 
-<input type="radio" name="gender" value="male"
-{{ old('gender') == 'male' ? 'checked' : '' }}> Male
+        <label>Student Image</label>
+        <input type="file" name="image" accept="image/*">
 
-<input type="radio" name="gender" value="female"
-{{ old('gender') == 'female' ? 'checked' : '' }}> Female
+        <button type="submit">Register Student</button>
+    </form>
 
-</p>
-
-<p>
-<label>Age</label>
-<input type="number" name="age" value="{{ old('age') }}">
-</p>
-
-<p>
-<label>Email</label>
-<input type="email" name="email" value="{{ old('email') }}">
-</p>
-
-<p>
-<label>Password:</label><br>
-<input type="password" name="password" required>
-</p>
-
-<p>
-<label>Confirm Password:</label><br>
-<input type="password" name="password_confirmation" required>
-</p>
-
-<p>
-<label>Student Image</label>
-<input type="file" name="image">
-</p>
-
-<button type="submit">Register Student</button>
-
-<br><br>
-
-<a href="/teacher/dashboard">Back</a>
-
-</form>
-
+    <br>
+    <a href="{{ route('teacher.dashboard') }}">Back to Dashboard</a>
 </div>
 
 </body>
