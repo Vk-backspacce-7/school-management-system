@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -70,4 +71,11 @@ class PrincipalController extends Controller
 
         return redirect()->route('principal.dashboard')->with('success', 'Teacher deleted successfully.');
     }
+
+    //=========================
+    // student system start ==========
+    //============================
+
+
+
 }

@@ -53,3 +53,9 @@ Route::put('/students/{id}', [TeacherController::class, 'update'])->name('teache
         Route::get('/dashboard', [StudentController::class, 'index'])->name('student.dashboard');
     });
 });
+
+use App\Http\Controllers\ClassController;
+
+Route::get('/create-classes',[ClassController::class,'index']);
+
+Route::post('/classes/store',[ClassController::class,'store'])->name('principal.classes.store');
