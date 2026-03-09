@@ -3,41 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model; 
-use Illuminate\Foundation\Auth\student as Authenticatable;
- use Spatie\Permission\Traits\HasRoles;
- 
+use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-  use HasFactory , HasRoles;
-
-    protected $table = 'students';
+    use HasFactory;
 
     protected $fillable = [
-        'name',
-        'father_name',
+        'user_id',
         'class',
-        'mobile',
-        'address',
-        'gender',
-        'age',
-        'email',
-        'password',
-        'image'
+        'age'
     ];
 
-    
-protected $hidden = [
-'password',
-'remember_token',
-];
-
-protected function casts(): array
-{
-return [
-'email_verified_at' => 'datetime',
-'password' => 'hashed',
-];
-}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

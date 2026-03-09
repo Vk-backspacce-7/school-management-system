@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+
+use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +27,7 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', Rule::in(['Principal', 'Teacher', 'Student'])],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-            'dob' => ['nullable', 'date'],
+        
             'gender' => ['nullable', Rule::in(['male', 'female', 'other'])],
             'father_name' => ['nullable', 'string', 'max:255'],
             'mobile' => ['nullable', 'regex:/^[0-9]{10}$/'],
@@ -41,7 +43,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'dob' => $request->dob,
+          
             'gender' => $request->gender,
             'father_name' => $request->father_name,
             'mobile' => $request->mobile,

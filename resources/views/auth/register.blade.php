@@ -17,8 +17,7 @@
                 <label for="name">Name</label>
                 <input type="text" name="name" value="{{ old('name') }}" placeholder="Name">
 
-                     <label for="dob">Date of Birth</label>
-                <input type="date" name="dob" value="{{ old('dob') }}">
+                 
 
                     <label for="gender">Gender</label>
                 <label><input type="radio" name="gender" value="male" @checked(old('gender')==='male')> Male</label>
