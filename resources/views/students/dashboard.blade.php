@@ -11,40 +11,24 @@
 
 <div class="sidebar">
 
-<h2>Student Panel</h2>
+ 
+
+<h2>Student Dashboard</h2>
+
+<img src="{{ asset('storage/'.$student->image) }}" width="120">
+
+<p>Name : {{ $student->name }}</p>
+<p>Email : {{ $student->email }}</p>
+<p>Father : {{ $student->father_name }}</p>
+<p>Mobile : {{ $student->mobile }}</p>
+<p>Gender : {{ $student->gender }}</p>
+<p>DOB : {{ $student->dob }}</p>
+<p>Address : {{ $student->address }}</p>
 
 <form action="{{ route('logout') }}" method="POST">
 @csrf
 <button type="submit">Logout</button>
 </form>
-
-</div>
-
-
-<!-- Main Content -->
-
-<div class="main">
-
-<div class="card">
-
-<div class="profile">
-@if($student->image)
-    <img src="{{ asset('storage/'.$student->image) }}" width="120">
-@endif
-
-<h2>{{ $student->name }}</h2>
-<p>{{ $student->email }}</p>
-<p>{{ $student->father_name }}</p>
-<p>{{ $student->mobile }}</p>
-<p>{{ $student->gender }}</p>
-<p>{{ $student->dob }}</p>
-<p>{{ $student->address }}</p>
-</div>
- 
-
-</div>
-
-</div>
 
 </body>
 </html>

@@ -101,8 +101,9 @@
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Update Teacher</button>
     </form>
-
+<br><br>
+    <a href="{{ route('principal.dashboard') }}">Back</a>
 </div>
-
+ 
 </body>
 </html>
