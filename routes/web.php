@@ -42,8 +42,13 @@ Route::middleware('auth')->group(function () {
         Route::delete('/students/{id}', [PrincipalController::class, 'deleteStudent'])->name('principal.student.delete');
 
         // Classes management
+        // Classes management
         Route::get('/classes', [ClassController::class, 'index'])->name('principal.classes.index');
         Route::post('/classes/store', [ClassController::class, 'store'])->name('principal.classes.store');
+
+        Route::get('/classes/{id}/edit', [ClassController::class, 'edit'])->name('principal.classes.edit');
+        Route::put('/classes/{id}', [ClassController::class, 'update'])->name('principal.classes.update');
+        Route::delete('/classes/{id}', [ClassController::class, 'delete'])->name('principal.classes.delete');
     });
 
     // Teacher routes

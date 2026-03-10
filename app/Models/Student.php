@@ -11,7 +11,7 @@ class Student extends Model
 
     protected $fillable = [
         'user_id',
-        'class',
+        'class_id',
         'age'
     ];
 
@@ -19,4 +19,8 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function class()
+{
+    return $this->belongsTo(Classes::class,'class_id');
+}
 }

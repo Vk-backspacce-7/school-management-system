@@ -23,7 +23,7 @@
 @endif
 
 
-<form action="{{ route('principal.student.update', $student->id) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('principal.student.update', $user->id) }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('PUT')
 
@@ -32,38 +32,37 @@
 
 <p>
 <label>Name</label>
-<input type="text" name="name" value="{{ old('name',$student->name) }}">
+<input type="text" name="name" value="{{ old('name',$user->name) }}">
 </p>
 
 <p>
 <label>Father Name</label>
-<input type="text" name="father_name" value="{{ old('father_name',$student->father_name) }}">
+<input type="text" name="father_name" value="{{ old('father_name',$user->father_name) }}">
 </p>
 
 <p>
 <label>Mobile</label>
-<input type="text" name="mobile" value="{{ old('mobile',$student->mobile) }}">
+<input type="text" name="mobile" value="{{ old('mobile',$user->mobile) }}">
 </p>
 
 <p>
 <label>Address</label>
-<textarea name="address">{{ old('address',$student->address) }}</textarea>
-</p>
+<textarea name="address">{{ old('address',$user->address) }}</textarea></p>
 
 <p>
 <label>Gender</label><br>
 
 <input type="radio" name="gender" value="male"
-{{ old('gender',$student->gender)=='male' ? 'checked' : '' }}> Male
+{{ old('gender',$user->gender)=='male' ? 'checked' : '' }}> Male
 
 <input type="radio" name="gender" value="female"
-{{ old('gender',$student->gender)=='female' ? 'checked' : '' }}> Female
+{{ old('gender',$user->gender)=='female' ? 'checked' : '' }}> Female
 
 </p>
 
 <p>
 <label>Email</label>
-<input type="email" name="email" value="{{ old('email',$student->email) }}">
+<input type="email" name="email" value="{{ old('email',$user->email) }}">
 </p>
 
 <hr>
@@ -71,14 +70,28 @@
 
 <h3>extra add Student Details</h3>
 
-<p>
+ 
 <label>Class</label>
-<input type="text" name="class" value="{{ old('class',$student->student->class ?? '') }}">
-</p>
 
+<select name="class_id">
+
+<option value="">Select Class</option>
+
+@foreach($classes as $cls)
+
+<option value="{{ $cls->id }}"
+{{ ($user->student->class_id ?? '') == $cls->id ? 'selected' : '' }}>
+
+Class {{ $cls->class }} - {{ $cls->section }}
+
+</option>
+
+@endforeach
+
+</select>
 <p>
 <label>Age</label>
-<input type="number" name="age" value="{{ old('age',$student->student->age ?? '') }}">
+<input type="number" name="age" value="{{ old('age',$user->student->age ?? '') }}">
 </p>
 
  
@@ -102,8 +115,8 @@
 <p>
 <label>Current Image</label><br>
 
-@if($student->image)
-<img src="{{ asset('storage/'.$student->image) }}" width="60">
+@if($user->image)
+<img src="{{ asset('storage/'.$user->image) }}" width="60">
 @endif
 
 </p>
