@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Classes;
+use App\Models\student;
+use App\Models\User;
 
 class ClassController extends Controller
 {
     public function index()
     {
-        $classes = Classes::latest()->get(); // fetch all classes
-        return view('principal.dashboard', compact('classes')); // send to dashboard
+        $classes = Classes::latest()->get();
+        $teachers = User::role('Teacher')->get();
+         $students = User::role('Student')->get();  
+
+        return view('principal.dashboard', compact('classes','teachers','students'));
     }
 
     public function store(Request $request)
@@ -28,24 +33,27 @@ class ClassController extends Controller
         return redirect()->route('principal.dashboard')->with('success', 'Class added successfully.');
     }
 
+    public function edit($id)
+    {
+        $cls = Classes::findOrFail($id);
+        return view('principal.edit-classes', compact('cls'));
+    }
 
-    public function edit($id) {
-    $cls = Classes::findOrFail($id);
-    return view('principal.edit-classes', compact('cls'));
-}
+    public function update(Request $request, $id)
+    {
+        $cls = Classes::findOrFail($id);
+        $cls->class = $request->class;
+        $cls->section = $request->section;
+        $cls->save();
 
-public function update(Request $request, $id) {
-    $cls = Classes::findOrFail($id);
-    $cls->class = $request->class;
-    $cls->section = $request->section;
-    $cls->save();
+        return redirect()->route('principal.classes.index')->with('success','Class updated successfully');
+    }
 
-    return redirect()->route('principal.classes.index')->with('success','Class updated successfully');
-}
+    public function delete($id)
+    {
+        $cls = Classes::findOrFail($id);
+        $cls->delete();
 
-public function delete($id) {
-    $cls = Classes::findOrFail($id);
-    $cls->delete();
-    return redirect()->route('principal.classes.index')->with('success','Class deleted successfully');
-}
+        return redirect()->route('principal.classes.index')->with('success','Class deleted successfully');
+    }
 }

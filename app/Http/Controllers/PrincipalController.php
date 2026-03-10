@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Student;   // added
+use App\Models\Student;
 use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,16 +15,15 @@ class PrincipalController extends Controller
 
 public function dashboard()
 {
-
     $teachers = User::role('Teacher')->get();
 
-    // changed (students come from users table)
-    $students = User::role('Student')->get();
+    $students = User::role('Student')->with('student.class')->get();
 
-    $classes  = Classes::all();
+     $classes = Classes::latest()->get();
 
     return view('principal.dashboard', compact('teachers', 'students', 'classes'));
 }
+
 
     // ==========================
     // TEACHER MANAGEMENT
@@ -41,26 +40,27 @@ public function dashboard()
         $teacher = User::role('Teacher')->findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($teacher->id)],
-           
-            'gender' => ['nullable', Rule::in(['male', 'female', 'other'])],
-            'father_name' => ['nullable', 'string', 'max:255'],
-            'mobile' => ['nullable', 'regex:/^[0-9]{10}$/'],
-            'address' => ['nullable', 'string', 'max:1000'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'name' => ['required','string','max:255'],
+            'email' => ['required','email',Rule::unique('users','email')->ignore($teacher->id)],
+            'gender' => ['nullable',Rule::in(['male','female','other'])],
+            'father_name' => ['nullable','string','max:255'],
+            'mobile' => ['nullable','regex:/^[0-9]{10}$/'],
+            'address' => ['nullable','string','max:1000'],
+            'image' => ['nullable','image','mimes:jpeg,png,jpg','max:2048'],
+            'password' => ['nullable','string','min:8','confirmed'],
         ]);
 
         $teacher->fill($request->only([
-            'name', 'email',   'gender', 'father_name', 'mobile', 'address'
+            'name','email','gender','father_name','mobile','address'
         ]));
 
         if ($request->hasFile('image')) {
+
             if ($teacher->image) {
                 Storage::disk('public')->delete($teacher->image);
             }
-            $teacher->image = $request->file('image')->store('profile_images', 'public');
+
+            $teacher->image = $request->file('image')->store('profile_images','public');
         }
 
         if ($request->filled('password')) {
@@ -69,8 +69,9 @@ public function dashboard()
 
         $teacher->save();
 
-        return redirect()->route('principal.dashboard')->with('success', 'Teacher updated successfully.');
+        return redirect()->route('principal.dashboard')->with('success','Teacher updated successfully.');
     }
+
 
     public function deleteTeacher($id)
     {
@@ -82,8 +83,9 @@ public function dashboard()
 
         $teacher->delete();
 
-        return redirect()->route('principal.dashboard')->with('success', 'Teacher deleted successfully.');
+        return redirect()->route('principal.dashboard')->with('success','Teacher deleted successfully.');
     }
+
 
     // ==========================
     // STUDENT MANAGEMENT
@@ -91,57 +93,64 @@ public function dashboard()
 
     public function createStudent()
     {
-        return view('principal.register-students');
+        $classes = Classes::all();
+
+        return view('principal.register-students',compact('classes'));
     }
 
 
-    // FIXED
     public function storeStudent(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => ['required','string','max:255'],
+            'email' => ['required','email','unique:users,email'],
+            'password' => ['required','string','min:8','confirmed'],
         ]);
 
-        // create user
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'Student'
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>Hash::make($request->password),
+            'role'=>'Student'
         ]);
 
         $user->assignRole('Student');
 
-        return redirect()->route('principal.dashboard')->with('success', 'Student created successfully.');
+        // create student record
+        Student::create([
+            'user_id'=>$user->id,
+            'class_id'=>$request->class_id,
+            'age'=>$request->age
+        ]);
+
+        return redirect()->route('principal.dashboard')->with('success','Student created successfully.');
     }
 
 
-    // FIXED
+
     public function editStudent($id)
     {
-        $user = User::findOrFail($id);
-        $student = $user->student;
+        $user = User::with('student')->findOrFail($id);
 
-        return view('principal.edit-students', compact('user','student'));
+        $classes = Classes::all();
+
+        return view('principal.edit-students',compact('user','classes'));
     }
 
 
-    // FIXED (insert + update logic)
+
     public function updateStudent(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         $request->validate([
-            'name' => ['required','string','max:255'],
-            'email' => ['required','email',Rule::unique('users','email')->ignore($user->id)],
+            'name'=>['required','string','max:255'],
+            'email'=>['required','email',Rule::unique('users','email')->ignore($user->id)],
         ]);
 
         $user->update([
             'name'=>$request->name,
             'email'=>$request->email,
-         
             'gender'=>$request->gender,
             'father_name'=>$request->father_name,
             'mobile'=>$request->mobile,
@@ -153,7 +162,7 @@ public function dashboard()
         if($student){
 
             $student->update([
-                'class'=>$request->class,
+                'class_id'=>$request->class_id,
                 'age'=>$request->age
             ]);
 
@@ -161,7 +170,7 @@ public function dashboard()
 
             Student::create([
                 'user_id'=>$user->id,
-                'class'=>$request->class,
+                'class_id'=>$request->class_id,
                 'age'=>$request->age
             ]);
 
@@ -181,7 +190,7 @@ public function dashboard()
 
         $user->delete();
 
-        return redirect()->route('principal.dashboard')->with('success', 'Student deleted successfully.');
+        return redirect()->route('principal.dashboard')->with('success','Student deleted successfully.');
     }
 
 }
