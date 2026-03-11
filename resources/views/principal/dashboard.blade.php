@@ -26,12 +26,12 @@
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ms-auto">
 
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="backHome()">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('principal.dashboard') }}" onclick="backHome()">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="openAbout()">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showTeachers()">Teacher</a></li>
                     <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showStudents()">Student</a></li>
                     <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showClasses()">Classes</a></li>
-                    <li class="nav-item"><a class="nav-link">Subjects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showSubjects()">Subject</a></li>
                     <li class="nav-item ms-3">
                 
             <button class="btn profile-btn" onclick="openProfile()">
@@ -95,7 +95,7 @@
             </div>
                 </div>
                   <div class="col-md-3">
-                <div class="feature-card">
+                <div class="feature-card" onclick="showSubjects()">
             <i class="bi bi-book"></i>
         <h5>Subjects</h5>
         <p>Manage subjects and curriculum.</p>
@@ -311,6 +311,146 @@ Class {{ $student->student->class->class ?? 'N/A' }}
             </div>
             </section>
                    
+<div class="container mt-5">
+
+<!--===========================-->
+    <!-- subject  --->
+     <!--===========================-->
+<section id="subjects" style="display:none">
+
+<div class="container mt-5">
+
+<div class="d-flex justify-content-between mb-3">
+<h2>Subjects</h2>
+<button class="btn btn-secondary" onclick="backHome()">Back</button>
+</div>
+
+    <!-- Add Subject -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4>Add New Subject</h4>
+            <form action="{{ route('principal.subjects.store') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label>Subject Name:</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter Subject" required>
+                </div>
+                <button type="submit" class="btn btn-success">Add Subject</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Assign Subjects to Class -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4>Assign Subjects to Class</h4>
+            <form action="{{ route('principal.subjects.assign') }}" method="POST">
+                @csrf
+                <div class="row g-2">
+                    <!-- Single Class Dropdown -->
+                    <div class="col-md-6">
+                        <label>Select Class:</label>
+                        <select name="class_id" class="form-control" required>
+                            <option value="">-- Select Class --</option>
+                            @foreach($classes as $cls)
+                                <option value="{{ $cls->id }}">Class {{ $cls->class }} - {{ $cls->section }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Subjects Checkboxes -->
+                    <div class="col-md-6">
+                        <label>Select Subjects:</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach($subjects as $subject)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="subjects[]" value="{{ $subject->id }}" id="subject{{ $subject->id }}">
+                                    <label class="form-check-label" for="subject{{ $subject->id }}">
+                                        {{ $subject->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary">Assign Subjects</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<section>
+    <!-- Existing Subjects Table -->
+    <div class="card shadow">
+        <div class="card-body">
+            <h4>Existing Subjects</h4>
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($subjects as $subject)
+                        <tr>
+                            <td>{{ $subject->id }}</td>
+                            <td>{{ $subject->name }}</td>
+                            <td> 
+                                <form action="{{ route('principal.dashboard.delete', $subject->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this subject?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--===========================-->
+<!-- Class Subjects Table -->
+<!--===========================-->
+<div class="card shadow mt-4">
+<div class="card-body">
+<h4>Class Subjects</h4>
+<table class="table table-bordered table-hover">
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Class</th>
+<th>Subjects</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+@foreach($classes as $cls)
+<tr>
+<td>{{ $cls->id }}</td>
+<td>
+Class {{ $cls->class }} - {{ $cls->section }}
+</td>
+<td>
+{{ $cls->subjects->pluck('name')->implode(', ') }}
+</td>
+<td>
+<a href="{{ route('principal.class-subjects.edit',$cls->id) }}"
+class="btn btn-warning btn-sm">
+Edit
+</a>
+</td>
+</tr>
+@endforeach
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
 
 <!--========================== -->
     <!-- PROFILE MODAL -->
