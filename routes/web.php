@@ -5,6 +5,8 @@ use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\SubjectController;
+
 use Illuminate\Support\Facades\Route;
 
 // Root redirect to login
@@ -23,7 +25,9 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Principal routes
+    // -------------------------------
+    // Principal Routes
+    // -------------------------------
     Route::prefix('principal')->middleware('role:Principal')->group(function () {
 
         // Dashboard
@@ -42,16 +46,35 @@ Route::middleware('auth')->group(function () {
         Route::delete('/students/{id}', [PrincipalController::class, 'deleteStudent'])->name('principal.student.delete');
 
         // Classes management
-        // Classes management
         Route::get('/classes', [ClassController::class, 'index'])->name('principal.classes.index');
         Route::post('/classes/store', [ClassController::class, 'store'])->name('principal.classes.store');
-
         Route::get('/classes/{id}/edit', [ClassController::class, 'edit'])->name('principal.classes.edit');
         Route::put('/classes/{id}', [ClassController::class, 'update'])->name('principal.classes.update');
         Route::delete('/classes/{id}', [ClassController::class, 'delete'])->name('principal.classes.delete');
+
+        // Subject management
+        Route::get('/subjects', [SubjectController::class,'index'])->name('principal.dashboard.index');
+        Route::post('/subjects/store', [SubjectController::class,'store'])->name('principal.subjects.store');
+        Route::get('/subjects/{id}/edit', [SubjectController::class,'edit'])->name('principal.subjects.edit');
+        Route::put('/subjects/{id}', [SubjectController::class,'update'])->name('principal.subjects.update');
+        Route::delete('/subjects/{id}', [SubjectController::class,'delete'])->name('principal.dashboard.delete');
+
+        // Assign subjects to class
+        Route::post('/subjects/assign', [SubjectController::class,'assign'])->name('principal.subjects.assign');
+
+        // Edit assigned subjects for a class
+        Route::get('/classes/{id}/subjects/edit', [SubjectController::class, 'editAssignSubjects'])
+            ->name('principal.class-subjects.edit');
+        Route::put('/classes/{id}/subjects', [SubjectController::class, 'updateAssignSubjects'])
+            ->name('principal.class-subjects.update');
+        Route::delete('/subjects/{id}', [SubjectController::class,'delete'])->name('principal.dashboard.delete');
+
+
     });
 
-    // Teacher routes
+    // -------------------------------
+    // Teacher Routes
+    // -------------------------------
     Route::prefix('teacher')->middleware('role:Teacher')->group(function () {
         Route::get('/dashboard', [TeacherController::class, 'index'])->name('teacher.dashboard');
 
@@ -62,7 +85,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/students/{id}', [TeacherController::class, 'delete'])->name('teacher.student.delete');
     });
 
-    // Student dashboard
+    // -------------------------------
+    // Student Routes
+    // -------------------------------
     Route::prefix('student')->middleware('role:Student')->group(function () {
         Route::get('/dashboard', [StudentController::class, 'index'])->name('student.dashboard');
     });

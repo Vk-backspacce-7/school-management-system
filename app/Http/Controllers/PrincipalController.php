@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Classes;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -19,9 +20,11 @@ public function dashboard()
 
     $students = User::role('Student')->with('student.class')->get();
 
-     $classes = Classes::latest()->get();
+    $classes = Classes::orderBy('id','asc')->get();
 
-    return view('principal.dashboard', compact('teachers', 'students', 'classes'));
+     $subjects = Subject::orderBy('id','asc')->get();
+
+    return view('principal.dashboard', compact('teachers', 'students', 'classes','subjects'));
 }
 
 

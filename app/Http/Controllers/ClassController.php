@@ -6,16 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Classes;
 use App\Models\student;
 use App\Models\User;
+use App\Models\Subject;
 
 class ClassController extends Controller
 {
     public function index()
     {
-        $classes = Classes::latest()->get();
+        $classes = Classes::orderBy('id','asc')->get();
         $teachers = User::role('Teacher')->get();
          $students = User::role('Student')->get();  
-
-        return view('principal.dashboard', compact('classes','teachers','students'));
+         $subjects = Subject::all();
+        return view('principal.dashboard', compact('classes','teachers','students','subjects'));
     }
 
     public function store(Request $request)

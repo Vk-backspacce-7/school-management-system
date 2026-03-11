@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Helper function to hide all sections
     function hideAllSections() {
-        const sections = ['mainContent', 'teachers', 'students', 'classes'];
+        const sections = ['mainContent', 'teachers', 'students', 'classes','subjects'];
         sections.forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
@@ -38,6 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Show Subjects section
+function showSubjects() {
+    hideAllSections();
+    document.getElementById('subjects').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
     // Open Profile modal using Bootstrap 5
     function openProfile() {
         const profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
@@ -54,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.showTeachers = showTeachers;
     window.showStudents = showStudents;
     window.showClasses = showClasses;
+    window.showSubjects = showSubjects;
     window.openProfile = openProfile;
     window.openAbout = openAbout;
 
