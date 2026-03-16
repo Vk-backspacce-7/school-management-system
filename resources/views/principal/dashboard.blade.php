@@ -108,11 +108,18 @@
 <!--========================== -->
 <!-- TEACHERS TABLE -->
 <!--========================== -->
+
+
 <section class="teachers-section" id="teachers" style="display:none;">
 <div class="container">
 <div class="d-flex justify-content-between mb-3">
 <h2>Teachers List</h2>
 <button class="btn btn-secondary" onclick="backHome()">Back</button>
+</div>
+ <div class="action-buttons">
+    <a href="{{ route('principal.register') }}" class="btn-custom teacher-btn">
+        + Register Teacher
+    </a>    
 </div>
 <div class="card shadow">
 <div class="card-body">
@@ -166,13 +173,20 @@
 <!--========================== -->
 <!-- STUDENTS TABLE -->
  <!--========================== -->
+ 
 <section class="students-section" id="students" style="display:none;">
 <div class="container mt-5">
-<div class="d-flex justify-content-between mb-3">
+<div class="d-flex justify-content-between mb-3"><div>
+  
 <h2>Students List</h2>
-<div>
-<a href="{{ route('principal.student.create') }}" class="btn btn-primary">Add Student</a>
+
+ 
 <button class="btn btn-secondary" onclick="backHome()">Back</button>
+</div> 
+<div class="action-buttons">
+    <a href="{{ route('principal.register') }}" class="btn-custom student-btn">
+        + Register Student
+    </a>
 </div>
 </div>
 <div class="card shadow">

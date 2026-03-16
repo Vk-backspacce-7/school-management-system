@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
             use Illuminate\Support\Facades\Hash;
             use Illuminate\Validation\Rule;
             use Spatie\Permission\Models\Role;
+           
 
 class AuthController extends Controller {
    
@@ -53,6 +54,9 @@ class AuthController extends Controller {
                 ]);
 
                 $user->assignRole($request->role);
+
+                /* Queue Email */
+                SendWelcomeEmailJob::dispatch($user);
 
                 return redirect()->route('login')->with('success', 'Registration successful. Please login.');
             }

@@ -12,7 +12,7 @@
 <h2>Register Form</h2>
 
                 <div class="form">
-            <form action="{{ route('register.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('principal.register.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <label for="name">Name</label>
                 <input type="text" name="name" value="{{ old('name') }}" placeholder="Name">
@@ -71,10 +71,8 @@
             </ul>
             @endif
 
-<br><br>
-            <p>Back to login ➡️<button> <a href="{{ route('login') }}"> login here</a></button></p>
-
+ 
 </div>
-
+<a class="nav-link" href="{{ route('principal.dashboard') }}">Back</a>
 </body>
 </html>

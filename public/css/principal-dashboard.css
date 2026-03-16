@@ -234,3 +234,48 @@ form[action*="logout"] .btn-danger:active {
     color: #fff;
     transform: translateY(1px); /* optional small press effect */
 }
+
+ /* Action Buttons Container */
+.action-buttons{
+    margin:20px 0;
+    display:flex;
+    gap:15px;
+}
+
+/* Base Button Style */
+.btn-custom{
+    display:inline-block;
+    padding:10px 20px;
+    font-size:14px;
+    font-weight:500;
+    text-decoration:none;
+    border-radius:6px;
+    transition:all 0.3s ease;
+}
+
+/* Teacher Button */
+.teacher-btn{
+    background:#444;
+    color:#fff;
+}
+
+.teacher-btn:hover{
+    background:#222;
+    transform:translateY(-2px);
+}
+
+/* Student Button */
+.student-btn{
+    background:#777;
+    color:#fff;
+}
+
+.student-btn:hover{
+    background:#555;
+    transform:translateY(-2px);
+}
+
+/* Click Effect */
+.btn-custom:active{
+    transform:translateY(0);
+}

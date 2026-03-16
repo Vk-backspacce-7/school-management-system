@@ -10,9 +10,59 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+     use Spatie\Permission\Models\Role;
+     use App\Jobs\SendWelcomeEmailJob;
 
 class PrincipalController extends Controller
 {
+
+        public function showRegister()
+            {
+                $roles = Role::whereIn('name', [ 'Teacher', 'Student'])->get();
+                return view('principal.register', compact('roles'));
+            }
+
+
+
+    public function register(Request $request)
+    {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'role' => ['required', Rule::in(['Principal', 'Teacher', 'Student'])],
+                'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            
+                'gender' => ['nullable', Rule::in(['male', 'female', 'other'])],
+                'father_name' => ['nullable', 'string', 'max:255'],
+                'mobile' => ['nullable', 'regex:/^[0-9]{10}$/'],
+                'address' => ['nullable', 'string', 'max:1000'],
+            ]);
+
+            $imagePath = $request->hasFile('image')
+                ? $request->file('image')->store('profile_images', 'public') : null;
+
+              
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'role' => $request->role,
+                
+                    'gender' => $request->gender,
+                    'father_name' => $request->father_name,
+                    'mobile' => $request->mobile,
+                    'address' => $request->address,
+                    'image' => $imagePath,
+                ]);
+
+                $user->assignRole($request->role);
+
+                /* Queue Email */
+                SendWelcomeEmailJob::dispatch($user);
+
+                return redirect()->route('principal.dashboard')->with('success', 'Registration successful.');
+            }
 
 public function dashboard()
 {

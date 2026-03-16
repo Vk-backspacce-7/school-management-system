@@ -36,11 +36,6 @@
         @if(session('error'))
             <p style="color:red">{{ session('error') }}</p>
         @endif
-
-        <br><br>
-            <div>
-            <p>Don't have an account? <button> <a href="{{ route('register') }}">Register here</a></button></p>
-            </div>
         </div>
 
 </body>

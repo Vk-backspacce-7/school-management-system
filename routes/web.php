@@ -14,9 +14,7 @@ Route::get('/', fn () => redirect()->route('login'));
 
 // Guest routes (login & registration)
 Route::middleware('guest')->group(function () {
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register'])->name('register.store');
-
+    
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 });
@@ -29,7 +27,10 @@ Route::middleware('auth')->group(function () {
     // Principal Routes
     // -------------------------------
     Route::prefix('principal')->middleware('role:Principal')->group(function () {
-
+        // under principal register 
+Route::get('/register', [PrincipalController::class, 'showRegister'])->name('principal.register');
+    Route::post('/register', [PrincipalController::class, 'register'])->name('principal.register.store');
+ 
         // Dashboard
         Route::get('/dashboard', [PrincipalController::class, 'dashboard'])->name('principal.dashboard');
 
