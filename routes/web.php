@@ -27,7 +27,8 @@ Route::middleware('auth')->group(function () {
     // Principal Routes
     // -------------------------------
     Route::prefix('principal')->middleware('role:Principal')->group(function () {
-        // under principal register 
+        
+    // under principal register 
 Route::get('/register', [PrincipalController::class, 'showRegister'])->name('principal.register');
     Route::post('/register', [PrincipalController::class, 'register'])->name('principal.register.store');
  

@@ -26,12 +26,12 @@
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ms-auto">
 
-                    <li class="nav-item"><a class="nav-link" href="{{ route('principal.dashboard') }}" onclick="backHome()">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-section="mainContent">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="openAbout()">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showTeachers()">Teacher</a></li>
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showStudents()">Student</a></li>
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showClasses()">Classes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showSubjects()">Subject</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-section="teachers">Teacher</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-section="students">Student</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-section="classes">Classes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-section="subjects">Subject</a></li>
                     <li class="nav-item ms-3">
                 
             <button class="btn profile-btn" onclick="openProfile()">
@@ -65,7 +65,7 @@
      <div class="container">
           <div class="row g-4">
             <div class="col-md-3">
-                 <div class="feature-card" onclick="showTeachers()">
+                 <div class="feature-card" data-section="teachers" role="button" tabindex="0">
                  <i class="bi bi-person-video3"></i>
                  <!--========================== -->
     <!-- TEACHERS+++ ICON -->
@@ -75,7 +75,7 @@
                  </div>
             </div>
         <div class="col-md-3">
-            <div class="feature-card" onclick="showStudents()">
+            <div class="feature-card" data-section="students" role="button" tabindex="0">
                  <i class="bi bi-mortarboard"></i>
             <!--========================== -->
     <!-- STUDENT ICON +++ -->
@@ -85,7 +85,7 @@
             </div>
         </div>
     <div class="col-md-3">
-        <div class="feature-card" onclick="showClasses()">
+        <div class="feature-card" data-section="classes" role="button" tabindex="0">
             <i class="bi bi-building"></i>
             <!--========================== -->
     <!-- CLASSES ICON+++ -->
@@ -95,7 +95,7 @@
             </div>
                 </div>
                   <div class="col-md-3">
-                <div class="feature-card" onclick="showSubjects()">
+                <div class="feature-card" data-section="subjects" role="button" tabindex="0">
             <i class="bi bi-book"></i>
         <h5>Subjects</h5>
         <p>Manage subjects and curriculum.</p>
@@ -114,7 +114,7 @@
 <div class="container">
 <div class="d-flex justify-content-between mb-3">
 <h2>Teachers List</h2>
-<button class="btn btn-secondary" onclick="backHome()">Back</button>
+<button type="button" class="btn btn-secondary" data-section="mainContent">Back</button>
 </div>
  <div class="action-buttons">
     <a href="{{ route('principal.register') }}" class="btn-custom teacher-btn">
@@ -181,7 +181,7 @@
 <h2>Students List</h2>
 
  
-<button class="btn btn-secondary" onclick="backHome()">Back</button>
+<button type="button" class="btn btn-secondary" data-section="mainContent">Back</button>
 </div> 
 <div class="action-buttons">
     <a href="{{ route('principal.register') }}" class="btn-custom student-btn">
@@ -253,7 +253,7 @@ Class {{ $student->student->class->class ?? 'N/A' }}
 <div class="container">
 <div class="d-flex justify-content-between mb-3">
 <h2>Classes List</h2>
-<button class="btn btn-secondary" onclick="backHome()">Back</button>
+<button type="button" class="btn btn-secondary" data-section="mainContent">Back</button>
 </div>
 <div class="card mb-3">
 <div class="card-body">
@@ -316,6 +316,7 @@ Class {{ $student->student->class->class ?? 'N/A' }}
          <button class="btn btn-danger btn-sm"onclick="return confirm('Are you sure you want to delete this class?')">
         Delete</button>
                     </form>
+                  </td>
              </tr>
                       @endforeach
                   </tbody>
@@ -325,18 +326,15 @@ Class {{ $student->student->class->class ?? 'N/A' }}
             </div>
             </section>
                    
-<div class="container mt-5">
-
 <!--===========================-->
-    <!-- subject  --->
-     <!--===========================-->
-<section id="subjects" style="display:none">
-
+<!-- SUBJECTS -->
+<!--===========================-->
+<section id="subjects" style="display:none;">
 <div class="container mt-5">
 
 <div class="d-flex justify-content-between mb-3">
 <h2>Subjects</h2>
-<button class="btn btn-secondary" onclick="backHome()">Back</button>
+<button type="button" class="btn btn-secondary" data-section="mainContent">Back</button>
 </div>
 
     <!-- Add Subject -->
@@ -394,8 +392,7 @@ Class {{ $student->student->class->class ?? 'N/A' }}
             </form>
         </div>
     </div>
-</div>
-<section>
+
     <!-- Existing Subjects Table -->
     <div class="card shadow">
         <div class="card-body">
@@ -463,8 +460,8 @@ Edit
 </table>
 </div>
 </div>
-</section>
 </div>
+</section>
 
 <!--========================== -->
     <!-- PROFILE MODAL -->
