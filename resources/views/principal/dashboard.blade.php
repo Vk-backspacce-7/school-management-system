@@ -1,511 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal Dashboard | School Management</title>
 
-<title>Principal Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+     
 
-<link rel="stylesheet" href="{{ asset('css/principal-dashboard.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/principal-dashboard.css') }}">
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light custom-navbar">
+<nav class="navbar navbar-expand-lg navbar-light custom-navbar shadow-sm sticky-top bg-white">
     <div class="container">
-
-        <a class="navbar-brand fw-bold">PrincipalPanel</a>
-
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+        <a class="navbar-brand fw-bold" href="#">PrincipalPanel</a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
             <span class="navbar-toggler-icon"></span>
-            </button>
+        </button>
 
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav ms-auto">
-
-                    <li class="nav-item"><a class="nav-link" href="#" data-section="mainContent">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="openAbout()">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-section="teachers">Teacher</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-section="students">Student</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-section="classes">Classes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-section="subjects">Subject</a></li>
-                    <li class="nav-item ms-3">
-                
-            <button class="btn profile-btn" onclick="openProfile()">
-                <i class="bi bi-person-circle"></i> Profile
-                </button>
-                    </li>
-
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="#" data-section="mainContent">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-section="teachers">Teachers</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-section="students">Students</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-section="classes">Classes</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-section="subjects">Subjects</a></li>
+                <li class="nav-item ms-lg-3">
+                    <button class="btn btn-primary rounded-pill px-4 profile-btn" onclick="openProfile()">
+                        <i class="bi bi-person-circle me-1"></i> Profile
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 
+<div id="mainContent">
 
-            <!-- MAIN CONTENT +++++++ -->
-            <div id="mainContent">
-            <!-- HERO css krne ke liye ++++++ -->
-                <section class="hero-section">
-                    <div class="container text-center">
-        <h1>Welcome to School Management System</h1>
-    <p>Manage teachers, students, classes and subjects easily.</p>
-            </div>
-                </section>
-
-
-
-<!--========================== -->
-    <!-- FEATURES -->
-        <!--========================== -->
-   
- <section class="features-section">
-     <div class="container">
-          <div class="row g-4">
-            <div class="col-md-3">
-                 <div class="feature-card" data-section="teachers" role="button" tabindex="0">
-                 <i class="bi bi-person-video3"></i>
-                 <!--========================== -->
-    <!-- TEACHERS+++ ICON -->
-        <!--========================== -->
-             <h5>Teachers</h5>
-             <p>Manage teacher profiles and records.</p>
-                 </div>
-            </div>
-        <div class="col-md-3">
-            <div class="feature-card" data-section="students" role="button" tabindex="0">
-                 <i class="bi bi-mortarboard"></i>
-            <!--========================== -->
-    <!-- STUDENT ICON +++ -->
-        <!--========================== -->
-        <h5>Students</h5>
-        <p>Track student details and classes.</p>
-            </div>
+    <section class="hero-section py-5 text-center border-bottom" style="background: transparent;">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Executive Control Portal</h1>
+            <p class="fs-5 text-secondary">
+                Your unified gateway for comprehensive school administration and academic governance.
+            </p>
         </div>
-    <div class="col-md-3">
-        <div class="feature-card" data-section="classes" role="button" tabindex="0">
-            <i class="bi bi-building"></i>
-            <!--========================== -->
-    <!-- CLASSES ICON+++ -->
-        <!--========================== -->
-        <h5>Classes</h5>
-        <p>Organize classes and schedules.</p>
-            </div>
-                </div>
-                  <div class="col-md-3">
-                <div class="feature-card" data-section="subjects" role="button" tabindex="0">
-            <i class="bi bi-book"></i>
-        <h5>Subjects</h5>
-        <p>Manage subjects and curriculum.</p>
-                </div>
-</div>
-</div>
-</div>
-</section>
-</div>
-<!--========================== -->
-<!-- TEACHERS TABLE -->
-<!--========================== -->
+    </section>
 
-
-<section class="teachers-section" id="teachers" style="display:none;">
-<div class="container">
-<div class="d-flex justify-content-between mb-3">
-<h2>Teachers List</h2>
-<button type="button" class="btn btn-secondary" data-section="mainContent">Back</button>
-</div>
- <div class="action-buttons">
-    <a href="{{ route('principal.register') }}" class="btn-custom teacher-btn">
-        + Register Teacher
-    </a>    
-</div>
-<div class="card shadow">
-<div class="card-body">
-<table class="table table-bordered table-hover">
-<thead class="table-dark">
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Email</th>
-<th>Gender</th>
-<th>DOB</th>
-<th>Father</th>
-<th>Mobile</th>
-<th>Address</th>
-<th>Image</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-@foreach($teachers as $teacher)
-<tr>
-<td>{{ $teacher->id }}</td>
-<td>{{ $teacher->name }}</td>
-<td>{{ $teacher->email }}</td>
-<td>{{ $teacher->gender }}</td>
-<td>{{ $teacher->dob }}</td>
-<td>{{ $teacher->father_name }}</td>
-<td>{{ $teacher->mobile }}</td>
-<td>{{ $teacher->address }}</td>
-<td>
-@if($teacher->image)
-<img src="{{ asset('storage/'.$teacher->image) }}" width="50">
-@endif
-</td>
-<td>
-<a href="{{ route('principal.teacher.edit',$teacher->id) }}" class="btn btn-warning btn-sm">Edit</a>
-<form action="{{ route('principal.teacher.delete',$teacher->id) }}" method="POST" style="display:inline">
-@csrf
-@method('DELETE')
-<button class="btn btn-danger btn-sm">Delete</button>
-</form>
-</td>
-</tr>
-@endforeach
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</section>
-<!--========================== -->
-<!-- STUDENTS TABLE -->
- <!--========================== -->
- 
-<section class="students-section" id="students" style="display:none;">
-<div class="container mt-5">
-<div class="d-flex justify-content-between mb-3"><div>
-  
-<h2>Students List</h2>
-
- 
-<button type="button" class="btn btn-secondary" data-section="mainContent">Back</button>
-</div> 
-<div class="action-buttons">
-    <a href="{{ route('principal.register') }}" class="btn-custom student-btn">
-        + Register Student
-    </a>
-</div>
-</div>
-<div class="card shadow">
-<div class="card-body">
-<table class="table table-bordered table-hover">
-<thead class="table-dark">
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Email</th>
-<th>Mobile</th>
-<th>Gender</th>
-<th>Father</th>
-<th>Class</th>
-<th>Age</th>
-<th>Address</th>
-<th>Image</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-@foreach($students as $student)
-<tr>
-<td>{{ $student->id }}</td>
-<td>{{ $student->name }}</td>
-<td>{{ $student->email }}</td>
-<td>{{ $student->mobile }}</td>
-<td>{{ $student->gender }}</td>
-<td>{{ $student->father_name }}</td>
-<td>
-Class {{ $student->student->class->class ?? 'N/A' }} 
-- 
-{{ $student->student->class->section ?? '' }}
-</td>
-<td>{{ $student->student->age ?? 'N/A' }}</td>
-<td>{{ $student->address }}</td>
-<td>
-@if($student->image)
-<img src="{{ asset('storage/'.$student->image) }}" width="50">
-@endif
-</td>
-<td>
-<a href="{{ route('principal.student.edit',$student->id) }}" class="btn btn-warning btn-sm">Edit</a>
-<form action="{{ route('principal.student.delete',$student->id) }}" method="POST" style="display:inline;">
-@csrf
-@method('DELETE')
-<button class="btn btn-danger btn-sm" onclick="return confirm('Delete this student?')">Delete</button>
-</form>
-</td>
-</tr>
-@endforeach
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</section>
-
-
-<!--========================== -->
-<!-- CLASSES TABLE -->
- <!--========================== -->
-<section class="classes-section" id="classes" style="display:none;">
-<div class="container">
-<div class="d-flex justify-content-between mb-3">
-<h2>Classes List</h2>
-<button type="button" class="btn btn-secondary" data-section="mainContent">Back</button>
-</div>
-<div class="card mb-3">
-<div class="card-body">
-<form action="{{ route('principal.classes.store') }}" method="POST">
-@csrf
-<div class="row g-2">
-<div class="col-md-4">
-<label>Class</label>
-<select name="class" class="form-control">
-<option value="">Select Class</option>
-@for($i=1;$i<=12;$i++)
-<option value="{{ $i }}">Class {{ $i }}</option>
-@endfor
-</select>
-</div>
-<div class="col-md-4">
-<label>Section</label>
-<select name="section" class="form-control">
-@foreach(['A','B','C','D'] as $sec)
-<option value="{{ $sec }}">{{ $sec }}</option>
-@endforeach
-</select>
-</div>
-<div class="col-md-4 d-flex align-items-end">
-<button type="submit" class="btn btn-success">Add Class</button>
-</div>
-</div>
-</form>
-</div>
-</div>
-
-<!--========================== -->
-<!-- Classes Table -->
-<!--========================== -->
-            <div class="card shadow">
-                  <div class="card-body">
-                     <table class="table table-bordered table-hover">
-                      <thead class="table-dark">
-               <tr>
-                  <th>ID</th>
-                  <th>Class</th>
-                  <th>Section</th>
-                  <th>Created At</th>
-                  <th>Action</th>
-              </tr>
-                 </thead>
-                 <tbody>
-                      @foreach($classes as $cls)
-              <tr>
-                  <td>{{ $cls->id }}</td>
-                  <td>{{ $cls->class }}</td>
-                  <td>{{ $cls->section }}</td>
-                  <td>{{ $cls->created_at->format('d-m-Y') }}</td>
-                  <td><a href="{{ route('principal.classes.edit',$cls->id) }}"
-                     class="btn btn-primary btn-sm">Edit</a>
-                     <form action="{{ route('principal.classes.delete',$cls->id) }}" method="POST"
-                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-         <button class="btn btn-danger btn-sm"onclick="return confirm('Are you sure you want to delete this class?')">
-        Delete</button>
-                    </form>
-                  </td>
-             </tr>
-                      @endforeach
-                  </tbody>
-                      </table>
-                 </div>
-             </div>
-            </div>
-            </section>
-                   
-<!--===========================-->
-<!-- SUBJECTS -->
-<!--===========================-->
-<section id="subjects" style="display:none;">
-<div class="container mt-5">
-
-<div class="d-flex justify-content-between mb-3">
-<h2>Subjects</h2>
-<button type="button" class="btn btn-secondary" data-section="mainContent">Back</button>
-</div>
-
-    <!-- Add Subject -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h4>Add New Subject</h4>
-            <form action="{{ route('principal.subjects.store') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label>Subject Name:</label>
-                    <input type="text" name="name" class="form-control" placeholder="Enter Subject" required>
-                </div>
-                <button type="submit" class="btn btn-success">Add Subject</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Assign Subjects to Class -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h4>Assign Subjects to Class</h4>
-            <form action="{{ route('principal.subjects.assign') }}" method="POST">
-                @csrf
-                <div class="row g-2">
-                    <!-- Single Class Dropdown -->
-                    <div class="col-md-6">
-                        <label>Select Class:</label>
-                        <select name="class_id" class="form-control" required>
-                            <option value="">-- Select Class --</option>
-                            @foreach($classes as $cls)
-                                <option value="{{ $cls->id }}">Class {{ $cls->class }} - {{ $cls->section }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Subjects Checkboxes -->
-                    <div class="col-md-6">
-                        <label>Select Subjects:</label>
-                        <div class="d-flex flex-wrap gap-2">
-                            @foreach($subjects as $subject)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="subjects[]" value="{{ $subject->id }}" id="subject{{ $subject->id }}">
-                                    <label class="form-check-label" for="subject{{ $subject->id }}">
-                                        {{ $subject->name }}
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div class="col-12 d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-primary">Assign Subjects</button>
+    <section class="features-section py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="feature-card shadow-sm p-4 text-center border-0 rounded-4" data-section="teachers">
+                        <i class="bi bi-person-video3 fs-1 text-primary mb-3"></i>
+                        <h5 class="fw-bold">Teachers</h5>
+                        <p class="small text-muted mb-0">Organize staff records and assignments.</p>
                     </div>
                 </div>
-            </form>
+                <div class="col-md-3">
+                    <div class="feature-card shadow-sm p-4 text-center border-0 rounded-4" data-section="students">
+                        <i class="bi bi-mortarboard fs-1 text-success mb-3"></i>
+                        <h5 class="fw-bold">Students</h5>
+                        <p class="small text-muted mb-0">Track student enrollments and details.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="feature-card shadow-sm p-4 text-center border-0 rounded-4" data-section="classes">
+                        <i class="bi bi-building fs-1 text-info mb-3"></i>
+                        <h5 class="fw-bold">Classes</h5>
+                        <p class="small text-muted mb-0">Organize sections and academic levels.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="feature-card shadow-sm p-4 text-center border-0 rounded-4" data-section="subjects">
+                        <i class="bi bi-book fs-1 text-warning mb-3"></i>
+                        <h5 class="fw-bold">Subjects</h5>
+                        <p class="small text-muted mb-0">Manage academic programs and course structures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+@include('principal.teachers-view')
+@include('principal.students-view')
+@include('principal.classes-view')
+@include('principal.subjects-view')
+
+<div class="modal fade" id="profileModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-person-badge me-2"></i>My Profile</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                @if(auth()->user()->image)
+                    <img src="{{ asset('storage/'.auth()->user()->image) }}" 
+                         class="rounded-circle border shadow-sm mb-3" 
+                         width="120" height="120" style="object-fit: cover;">
+                @else
+                    <i class="bi bi-person-circle display-1 text-secondary mb-3"></i>
+                @endif
+                <h4 class="fw-bold mb-0">{{ auth()->user()->name }}</h4>
+                <p class="text-muted small mb-3">Principal</p>
+                <hr>
+                <div class="text-start px-4">
+                    <p class="mb-1 small"><strong>Email:</strong> {{ auth()->user()->email }}</p>
+                    <p class="mb-1 small"><strong>Mobile:</strong> {{ auth()->user()->mobile }}</p>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-0">
+                <form action="{{ route('logout') }}" method="POST" class="w-100">
+                    @csrf
+                    <button type="submit" class="btn btn-danger w-100 py-2 rounded-pill">
+                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-
-    <!-- Existing Subjects Table -->
-    <div class="card shadow">
-        <div class="card-body">
-            <h4>Existing Subjects</h4>
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Subject</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($subjects as $subject)
-                        <tr>
-                            <td>{{ $subject->id }}</td>
-                            <td>{{ $subject->name }}</td>
-                            <td> 
-                                <form action="{{ route('principal.dashboard.delete', $subject->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this subject?')">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <!--===========================-->
-<!-- Class Subjects Table -->
-<!--===========================-->
-<div class="card shadow mt-4">
-<div class="card-body">
-<h4>Class Subjects</h4>
-<table class="table table-bordered table-hover">
-<thead class="table-dark">
-<tr>
-<th>ID</th>
-<th>Class</th>
-<th>Subjects</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-@foreach($classes as $cls)
-<tr>
-<td>{{ $cls->id }}</td>
-<td>
-Class {{ $cls->class }} - {{ $cls->section }}
-</td>
-<td>
-{{ $cls->subjects->pluck('name')->implode(', ') }}
-</td>
-<td>
-<a href="{{ route('principal.class-subjects.edit',$cls->id) }}"
-class="btn btn-warning btn-sm">
-Edit
-</a>
-</td>
-</tr>
-@endforeach
-</tbody>
-</table>
 </div>
-</div>
-</div>
-</section>
-
-<!--========================== -->
-    <!-- PROFILE MODAL -->
-        <!--========================== -->
-
-<div class="modal fade" id="profileModal">
-
-<div class="modal-dialog">
-<div class="modal-content">
-
-<div class="modal-header">
-<h5 class="modal-title">Principal Profile</h5>
-<button class="btn-close" data-bs-dismiss="modal"></button>
-</div>
-
-<div class="modal-body text-center">
-
-@if(auth()->user()->image)
-<img src="{{ asset('storage/'.auth()->user()->image) }}" class="profile-img">
-@endif
-
-<p><strong>Name:</strong> {{ auth()->user()->name }}</p>
-<p><strong>Email:</strong> {{ auth()->user()->email }}</p>
-<p><strong>Mobile:</strong> {{ auth()->user()->mobile }}</p>
-
-</div>
-
-<div class="modal-footer">
-
-<form action="{{ route('logout') }}" method="POST">
-@csrf
-<button class="btn btn-danger">Logout</button>
-</form>
-
-</div>
-
-</div>
-</div>
-</div>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/principal-dashboard.js') }}"></script>
+
+<script>
+    function openProfile() {
+        var myModal = new bootstrap.Modal(document.getElementById('profileModal'));
+        myModal.show();
+    }
+</script>
 
 </body>
 </html>

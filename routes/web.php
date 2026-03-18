@@ -8,13 +8,19 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\SubjectController;
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 // Root redirect to login
-Route::get('/', fn () => redirect()->route('login'));
+
+
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('principal.dashboard');  
+    }
+    return redirect()->route('login');
+});
 
 // Guest routes (login & registration)
 Route::middleware('guest')->group(function () {
-    
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 });

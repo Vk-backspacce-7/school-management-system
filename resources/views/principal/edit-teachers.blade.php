@@ -37,11 +37,7 @@
             <input id="email" type="email" name="email" value="{{ old('email', $teacher->email) }}" required>
         </div>
 
-        <!-- Date of Birth -->
-        <div class="form-group">
-            <label for="dob">Date of Birth</label>
-            <input id="dob" type="date" name="dob" value="{{ old('dob', $teacher->dob) }}" required>
-        </div>
+  
 
         <!-- Gender -->
         <div class="form-group">
