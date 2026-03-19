@@ -100,3 +100,4 @@ Route::get('/register', [PrincipalController::class, 'showRegister'])->name('pri
         Route::get('/dashboard', [StudentController::class, 'index'])->name('student.dashboard');
     });
 });
+

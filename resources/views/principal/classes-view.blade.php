@@ -31,8 +31,9 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label small fw-bold">Select Section</label>
+                               
                                 <select name="section" class="form-select border-success" required>
+                                     <option value="">-- Choose  section --</option>
                                     @foreach(['A','B','C','D','E'] as $sec)
                                         <option value="{{ $sec }}">Section {{ $sec }}</option>
                                     @endforeach

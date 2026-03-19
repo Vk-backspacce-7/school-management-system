@@ -449,3 +449,61 @@ body::before {
     border-color: #6c6c6c;      /* Same border */
     box-shadow: none;            /* No shadow */
 }
+
+.text-secondary {
+    --bs-text-opacity: 1;
+    color: rgb(14 14 14) !important;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.notification {
+    min-width: 320px;
+    max-width: 420px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #e5e5e5;
+    font-size: 14px;
+    font-weight: 500;
+    backdrop-filter: blur(14px);
+    background: rgba(20, 20, 20, 0.75);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+    animation: slideFadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.notification .icon { font-size:16px; opacity:0.9; }
+.notification .message { flex:1; }
+.notification .close-btn {
+    background: transparent; border: none; color: #aaa;
+    font-size: 16px; cursor: pointer; transition: all 0.2s ease;
+}
+.notification .close-btn:hover { color:#fff; transform: scale(1.1); }
+
+.notification.success { border-left: 3px solid rgba(100,255,180,0.4); }
+.notification.error { border-left: 3px solid rgba(255,100,100,0.4); }
+.notification.info { border-left: 3px solid rgba(120,180,255,0.4); }
+
+@keyframes slideFadeIn {
+    to { opacity:1; transform:translateY(0) scale(1); }
+}
+@keyframes slideFadeOut {
+    to { opacity:0; transform:translateY(-10px) scale(0.96); }
+}

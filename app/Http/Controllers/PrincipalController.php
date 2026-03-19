@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
      use Spatie\Permission\Models\Role;
      use App\Jobs\SendWelcomeEmailJob;
+     use Flash; // laracasts/flash
 
 class PrincipalController extends Controller
 {

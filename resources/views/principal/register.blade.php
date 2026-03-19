@@ -2,6 +2,10 @@
 <html>
 <head>
 <title>Register</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
@@ -11,6 +15,43 @@
 
 <h2>Register Form</h2>
 
+    <!-- Notification Container -->
+<div class="notification-container">
+    @if(session('success'))
+        <div class="notification success">
+            <span class="icon">✔</span>
+            <span class="message">{{ session('success') }}</span>
+            <button class="close-btn">&times;</button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="notification error">
+            <span class="icon">⚠</span>
+            <span class="message">{{ session('error') }}</span>
+            <button class="close-btn">&times;</button>
+        </div>
+    @endif
+
+    @if(session('info'))
+        <div class="notification info">
+            <span class="icon">ℹ</span>
+            <span class="message">{{ session('info') }}</span>
+            <button class="close-btn">&times;</button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <div class="notification error">
+                <span class="icon">⚠</span>
+                <span class="message">{{ $error }}</span>
+                <button class="close-btn">&times;</button>
+            </div>
+        @endforeach
+    @endif
+</div>
+ 
                 <div class="form">
             <form action="{{ route('principal.register.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -74,5 +115,32 @@
  
 </div>
 <a class="nav-link" href="{{ route('principal.dashboard') }}">Back</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+    
+document.addEventListener('DOMContentLoaded', function () {
+    const notifications = document.querySelectorAll('.notification');
+    notifications.forEach((notification, index) => {
+        notification.style.animationDelay = `${index * 0.1}s`;
+
+        const timeout = setTimeout(() => removeNotification(notification), 4000);
+
+        const closeBtn = notification.querySelector('.close-btn');
+        closeBtn.addEventListener('click', () => {
+            clearTimeout(timeout);
+            removeNotification(notification);
+        });
+    });
+
+    function removeNotification(notification) {
+        notification.style.animation = 'slideFadeOut 0.4s ease forwards';
+        setTimeout(() => notification.remove(), 400);
+    }
+});
+
+    </script>
+
 </body>
 </html>

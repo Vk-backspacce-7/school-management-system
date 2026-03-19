@@ -12,5 +12,7 @@ class DatabaseSeeder extends Seeder
         foreach (['Principal', 'Teacher', 'Student'] as $role) {
             Role::firstOrCreate(['name' => $role, 'guard_name' => 'web']);
         }
+
+        $this->call(AdminSeeder::class);
     }
 }

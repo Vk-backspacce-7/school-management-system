@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+   
     <title>Principal Dashboard | School Management</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -14,6 +16,44 @@
     <link rel="stylesheet" href="{{ asset('css/principal-dashboard.css') }}">
 </head>
 <body>
+
+    <!-- Notification Container -->
+<div class="notification-container">
+    @if(session('success'))
+        <div class="notification success">
+            <span class="icon">✔</span>
+            <span class="message">{{ session('success') }}</span>
+            <button class="close-btn">&times;</button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="notification error">
+            <span class="icon">⚠</span>
+            <span class="message">{{ session('error') }}</span>
+            <button class="close-btn">&times;</button>
+        </div>
+    @endif
+
+    @if(session('info'))
+        <div class="notification info">
+            <span class="icon">ℹ</span>
+            <span class="message">{{ session('info') }}</span>
+            <button class="close-btn">&times;</button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <div class="notification error">
+                <span class="icon">⚠</span>
+                <span class="message">{{ $error }}</span>
+                <button class="close-btn">&times;</button>
+            </div>
+        @endforeach
+    @endif
+</div>
+ 
 
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar shadow-sm sticky-top bg-white">
     <div class="container">
@@ -135,7 +175,11 @@
         var myModal = new bootstrap.Modal(document.getElementById('profileModal'));
         myModal.show();
     }
-</script>
+    
+ 
+   </script>
+ 
+  
 
 </body>
 </html>
