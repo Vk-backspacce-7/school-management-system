@@ -97,25 +97,3 @@
         window.openAbout = openAbout;
     });
 })();
-
-document.addEventListener('DOMContentLoaded', function () {
-    const notifications = document.querySelectorAll('.notification');
-    notifications.forEach((notification, index) => {
-        notification.style.animationDelay = `${index * 0.1}s`;
-
-        const timeout = setTimeout(() => removeNotification(notification), 4000);
-
-        const closeBtn = notification.querySelector('.close-btn');
-        closeBtn.addEventListener('click', () => {
-            clearTimeout(timeout);
-            removeNotification(notification);
-        });
-    });
-
-    function removeNotification(notification) {
-        notification.style.animation = 'slideFadeOut 0.4s ease forwards';
-        setTimeout(() => notification.remove(), 400);
-    }
-});
-
- 

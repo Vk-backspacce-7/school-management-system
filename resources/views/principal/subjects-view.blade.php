@@ -28,7 +28,10 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label small fw-bold">Subject Name</label>
-                                <input type="text" name="name" class="form-control border-primary" placeholder="e.g. Science" required>
+                                <input type="text" name="name" value="{{ old('name') }}" class="form-control border-primary @error('name') is-invalid @enderror" placeholder="e.g. Science" required>
+                                @error('name')
+                                    <small class="field-error">{{ $message }}</small>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-success w-100 shadow-sm">
                                 <i class="bi bi-plus-lg"></i> Save Subject
@@ -44,12 +47,15 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label small fw-bold">Select Class</label>
-                                <select name="class_id" class="form-select border-info" required>
+                                <select name="class_id" class="form-select border-info @error('class_id') is-invalid @enderror" required>
                                     <option value="">-- Choose Class --</option>
                                     @foreach($classes as $cls)
-                                        <option value="{{ $cls->id }}">Class {{ $cls->class }} - {{ $cls->section }}</option>
+                                        <option value="{{ $cls->id }}" {{ old('class_id') == $cls->id ? 'selected' : '' }}>Class {{ $cls->class }} - {{ $cls->section }}</option>
                                     @endforeach
                                 </select>
+                                @error('class_id')
+                                    <small class="field-error">{{ $message }}</small>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
@@ -57,13 +63,19 @@
                                 <div class="p-3 border rounded bg-white" style="max-height: 200px; overflow-y: auto;">
                                     @foreach($subjects as $subject)
                                         <div class="form-check mb-1">
-                                            <input class="form-check-input" type="checkbox" name="subjects[]" value="{{ $subject->id }}" id="sub_view_{{ $subject->id }}">
+                                            <input class="form-check-input" type="checkbox" name="subjects[]" value="{{ $subject->id }}" id="sub_view_{{ $subject->id }}" {{ in_array($subject->id, old('subjects', [])) ? 'checked' : '' }}>
                                             <label class="form-check-label small" for="sub_view_{{ $subject->id }}">
                                                 {{ $subject->name }}
                                             </label>
                                         </div>
                                     @endforeach
                                 </div>
+                                @error('subjects')
+                                    <small class="field-error">{{ $message }}</small>
+                                @enderror
+                                @error('subjects.*')
+                                    <small class="field-error">{{ $message }}</small>
+                                @enderror
                             </div>
 
                             <button type="submit" class="btn btn-info text-white w-100 shadow-sm">
@@ -157,4 +169,3 @@
 </section>
 </body>
 </html>
-

@@ -32,8 +32,7 @@ class AuthController extends Controller {
 
         switch ($role) {
             case 'Principal':
-                return redirect()->route('principal.dashboard')->with('success', 'logged in PrincipalPanel
-!');
+                return redirect()->route('principal.dashboard')->with('success', 'Logged in to Principal Panel successfully.');
             case 'Teacher':
                 return redirect()->route('teacher.dashboard')->with('success', 'Welcome Teacher!');
             case 'Student':

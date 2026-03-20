@@ -10,35 +10,40 @@
 
 <div class="container mt-5">
 
+    @include('partials.flash-notifications')
+
     <div class="d-flex justify-content-between mb-3">
         <h2>Edit Assigned Subjects</h2>
         <a href="{{ route('principal.dashboard.index') }}" class="btn btn-secondary">Back</a>
     </div>
- 
+
     <div class="card shadow">
         <div class="card-body">
+            @php
+                $selectedSubjects = old('subjects', $class->subjects->pluck('id')->toArray());
+            @endphp
+
             <form action="{{ route('principal.class-subjects.update', $class->id) }}" method="POST">
                 @csrf
                 @method('PUT')
- 
+
                 <div class="mb-3">
                     <label>Class:</label>
                     <input type="text" class="form-control" value="Class {{ $class->class }} - {{ $class->section }}" disabled>
                 </div>
 
-   
                 <div class="mb-3">
                     <label>Subjects:</label>
-                    <div class="d-flex flex-wrap gap-3">
+                    <div class="d-flex flex-wrap gap-3 border rounded p-3">
                         @foreach($subjects as $subject)
                             <div class="form-check">
-                                <input 
-                                    class="form-check-input" 
-                                    type="checkbox" 
-                                    name="subjects[]" 
-                                    value="{{ $subject->id }}" 
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="subjects[]"
+                                    value="{{ $subject->id }}"
                                     id="subject{{ $subject->id }}"
-                                    {{ $class->subjects->contains($subject->id) ? 'checked' : '' }}
+                                    {{ in_array($subject->id, $selectedSubjects) ? 'checked' : '' }}
                                 >
                                 <label class="form-check-label" for="subject{{ $subject->id }}">
                                     {{ $subject->name }}
@@ -46,6 +51,12 @@
                             </div>
                         @endforeach
                     </div>
+                    @error('subjects')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                    @error('subjects.*')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="d-flex justify-content-end">

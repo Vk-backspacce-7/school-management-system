@@ -1,118 +1,45 @@
-/* =============================
-   Edit Teacher Form Styling
-============================= */
+@import url("./components.css");
+@import url("./forms.css");
+@import url("./animations.css");
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: #f4f6f9;
+    background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
 }
 
 .container {
-    max-width: 600px;
-    margin: 50px auto;
-    background: #fff;
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    max-width: 680px;
+    margin: 38px auto;
+    padding: 28px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
 }
 
-/* Heading */
 .container h2 {
-    font-size: 28px;
-    color: #111;
-    font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    text-align: center;
 }
 
-/* Error Messages */
-ul {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin-bottom: 15px;
-    color: #e74c3c; /* red for errors */
-}
-
-/* Inputs, Select, Textarea */
-input[type="text"],
-input[type="email"],
-input[type="date"],
-input[type="password"],
-select,
-textarea,
-input[type="file"] {
-    width: 100%;
-    padding: 10px 15px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc; /* light grey border */
-    border-radius: 8px;
-    background: #fff;
-    font-size: 14px;
-    color: #111;
-    transition: all 0.3s ease;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="date"]:focus,
-input[type="password"]:focus,
-select:focus,
-textarea:focus {
-    border-color: #555; /* darker grey on focus */
-    outline: none;
-    box-shadow: 0 0 5px rgba(85, 85, 85, 0.2);
-}
-
-/* Textarea */
-textarea {
-    min-height: 80px;
-    resize: vertical;
-}
-
-/* File Input */
-input[type="file"] {
-    padding: 5px 10px;
-    border-radius: 6px;
-}
-
-/* Teacher Image Preview */
 img {
-    display: block;
-    margin-bottom: 10px;
-    border-radius: 50%;
+    width: 84px;
+    height: 84px;
     object-fit: cover;
-    width: 80px;
-    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #eaeaea;
 }
 
-/* Button */
-button[type="submit"] {
-    background-color: #555; /* grey */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
+.error-list {
+    margin-bottom: 16px;
+}
+
+a[href*="principal.dashboard"] {
+    display: inline-block;
+    margin-top: 10px;
     font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-button[type="submit"]:hover {
-    background-color: #333; /* darker grey on hover */
-}
-
-button[type="submit"]:active {
-    background-color: #111; /* black on click */
-    transform: translateY(1px);
-}
-
-/* Responsive */
 @media (max-width: 768px) {
     .container {
-        padding: 20px;
-        margin: 30px 15px;
-    }
-    .container h2 {
-        font-size: 24px;
+        margin: 18px 14px;
+        padding: 18px;
     }
 }

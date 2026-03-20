@@ -31,13 +31,12 @@ class PrincipalController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email', 'max:255', 'unique:users,email'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
-                'role' => ['required', Rule::in(['Principal', 'Teacher', 'Student'])],
-                'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-            
-                'gender' => ['nullable', Rule::in(['male', 'female', 'other'])],
-                'father_name' => ['nullable', 'string', 'max:255'],
-                'mobile' => ['nullable', 'regex:/^[0-9]{10}$/'],
-                'address' => ['nullable', 'string', 'max:1000'],
+                'role' => ['required', Rule::in(['Teacher', 'Student'])],
+                'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+                'gender' => ['required', Rule::in(['male', 'female', 'other'])],
+                'father_name' => ['required', 'string', 'max:255'],
+                'mobile' => ['required', 'regex:/^[0-9]{10}$/'],
+                'address' => ['required', 'string', 'max:1000'],
             ]);
 
             $imagePath = $request->hasFile('image')
@@ -96,10 +95,10 @@ public function dashboard()
         $request->validate([
             'name' => ['required','string','max:255'],
             'email' => ['required','email',Rule::unique('users','email')->ignore($teacher->id)],
-            'gender' => ['nullable',Rule::in(['male','female','other'])],
-            'father_name' => ['nullable','string','max:255'],
-            'mobile' => ['nullable','regex:/^[0-9]{10}$/'],
-            'address' => ['nullable','string','max:1000'],
+            'gender' => ['required',Rule::in(['male','female','other'])],
+            'father_name' => ['required','string','max:255'],
+            'mobile' => ['required','regex:/^[0-9]{10}$/'],
+            'address' => ['required','string','max:1000'],
             'image' => ['nullable','image','mimes:jpeg,png,jpg','max:2048'],
             'password' => ['nullable','string','min:8','confirmed'],
         ]);
@@ -200,16 +199,38 @@ public function dashboard()
         $request->validate([
             'name'=>['required','string','max:255'],
             'email'=>['required','email',Rule::unique('users','email')->ignore($user->id)],
+            'gender' => ['required', Rule::in(['male', 'female', 'other'])],
+            'father_name' => ['required', 'string', 'max:255'],
+            'mobile' => ['required', 'regex:/^[0-9]{10}$/'],
+            'address' => ['required', 'string', 'max:1000'],
+            'class_id' => ['required', 'exists:classes,id'],
+            'age' => ['required', 'integer', 'min:1', 'max:120'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $user->update([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'gender'=>$request->gender,
-            'father_name'=>$request->father_name,
-            'mobile'=>$request->mobile,
-            'address'=>$request->address
+        $user->fill([
+            'name' => $request->name,
+            'email' => $request->email,
+            'gender' => $request->gender,
+            'father_name' => $request->father_name,
+            'mobile' => $request->mobile,
+            'address' => $request->address,
         ]);
+
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+
+            $user->image = $request->file('image')->store('profile_images', 'public');
+        }
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
 
         $student = Student::where('user_id',$user->id)->first();
 

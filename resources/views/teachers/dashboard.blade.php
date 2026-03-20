@@ -150,7 +150,6 @@ body {
                 <p><strong>Email:</strong> {{ auth()->user()->email }}</p>
                 <p><strong>Gender:</strong> {{ auth()->user()->gender }}</p>
                 <p><strong>Mobile:</strong> {{ auth()->user()->mobile }}</p>
-                <p><strong>DOB:</strong> {{ auth()->user()->dob }}</p>
                 <p><strong>Father Name:</strong> {{ auth()->user()->father_name }}</p>
                 <p><strong>Address:</strong> {{ auth()->user()->address }}</p>
 

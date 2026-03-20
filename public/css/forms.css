@@ -1,0 +1,101 @@
+form {
+    width: 100%;
+}
+
+form p,
+.form-group,
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+label,
+.form-label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1c1c1c;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="number"],
+input[type="tel"],
+input[type="file"],
+select,
+textarea,
+.form-control,
+.form-select {
+    width: 100%;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1c1c1c;
+    padding: 10px 12px;
+    transition: all 0.3s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #9b9b9b;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.form-control:focus,
+.form-select:focus {
+    border-color: #111111;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+input[type="file"] {
+    padding: 8px 10px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: #111111;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    min-height: 42px;
+    padding: 10px 16px;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.error-list,
+ul.alert-danger,
+ul[style*="color:red"] {
+    list-style-position: inside;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    color: #1c1c1c;
+    padding: 12px 14px;
+}
+
+p[style*="color:green"] {
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    color: #1c1c1c !important;
+    padding: 12px 14px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eaeaea;
+}

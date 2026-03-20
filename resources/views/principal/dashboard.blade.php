@@ -17,43 +17,7 @@
 </head>
 <body>
 
-    <!-- Notification Container -->
-<div class="notification-container">
-    @if(session('success'))
-        <div class="notification success">
-            <span class="icon">✔</span>
-            <span class="message">{{ session('success') }}</span>
-            <button class="close-btn">&times;</button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="notification error">
-            <span class="icon">⚠</span>
-            <span class="message">{{ session('error') }}</span>
-            <button class="close-btn">&times;</button>
-        </div>
-    @endif
-
-    @if(session('info'))
-        <div class="notification info">
-            <span class="icon">ℹ</span>
-            <span class="message">{{ session('info') }}</span>
-            <button class="close-btn">&times;</button>
-        </div>
-    @endif
-
-    @if($errors->any())
-        @foreach($errors->all() as $error)
-            <div class="notification error">
-                <span class="icon">⚠</span>
-                <span class="message">{{ $error }}</span>
-                <button class="close-btn">&times;</button>
-            </div>
-        @endforeach
-    @endif
-</div>
- 
+    @include('partials.flash-notifications')
 
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar shadow-sm sticky-top bg-white">
     <div class="container">
@@ -83,7 +47,7 @@
 
     <section class="hero-section py-5 text-center border-bottom" style="background: transparent;">
         <div class="container">
-            <h1 class="display-4 fw-bold">Executive Control Portal</h1>
+            <h1 class="display-4 fw-bold text-dark">Executive Control Portal</h1>
             <p class="fs-5 text-secondary">
                 Your unified gateway for comprehensive school administration and academic governance.
             </p>

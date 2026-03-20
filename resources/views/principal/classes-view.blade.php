@@ -25,9 +25,12 @@
                                         
                                         <option value="">-- Choose Class --</option>
                                         @for($i=1; $i<=12; $i++)
-                                            <option value="{{ $i }}">Class {{ $i }}</option>
+                                            <option value="{{ $i }}" {{ old('class') == $i ? 'selected' : '' }}>Class {{ $i }}</option>
                                         @endfor
                                     </select>
+                                    @error('class')
+                                        <small class="field-error">{{ $message }}</small>
+                                    @enderror
                             </div>
 
                             <div class="mb-3">
@@ -35,9 +38,12 @@
                                 <select name="section" class="form-select border-success" required>
                                      <option value="">-- Choose  section --</option>
                                     @foreach(['A','B','C','D','E'] as $sec)
-                                        <option value="{{ $sec }}">Section {{ $sec }}</option>
+                                        <option value="{{ $sec }}" {{ old('section') == $sec ? 'selected' : '' }}>Section {{ $sec }}</option>
                                     @endforeach
                                 </select>
+                                @error('section')
+                                    <small class="field-error">{{ $message }}</small>
+                                @enderror
                             </div>
 
                             <button type="submit" class="btn btn-success w-100 shadow-sm mt-2">

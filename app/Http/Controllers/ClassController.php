@@ -42,6 +42,11 @@ class ClassController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'class' => 'required|integer|min:1|max:12',
+            'section' => 'required|string|max:1',
+        ]);
+
         $cls = Classes::findOrFail($id);
         $cls->class = $request->class;
         $cls->section = $request->section;
