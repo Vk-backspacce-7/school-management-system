@@ -21,6 +21,9 @@
                 <a href="{{ route('principal.register') }}" class="btn btn-primary shadow-sm px-4">
                     <i class="bi bi-person-plus-fill me-1"></i> Register New Teacher
                 </a>
+                <a href="{{ route('invite.create') }}" class="btn btn-outline-primary shadow-sm px-4 ms-2">
+                    <i class="bi bi-envelope-paper me-1"></i> Invite Teacher
+                </a>
             </div>
         </div>
 
@@ -115,4 +118,3 @@
 </section>
 </body>
 </html>
-

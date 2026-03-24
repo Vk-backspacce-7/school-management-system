@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InviteController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
@@ -23,6 +24,9 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+
+    Route::get('/register/{token}', [InviteController::class, 'showRegistrationForm'])->name('invite.accept');
+    Route::post('/register/{token}', [InviteController::class, 'register'])->name('invite.register');
 });
 
 // Authenticated routes
@@ -101,3 +105,7 @@ Route::get('/register', [PrincipalController::class, 'showRegister'])->name('pri
     });
 });
 
+Route::middleware(['auth', 'role:Principal'])->group(function () {
+    Route::get('/invite', [InviteController::class, 'create'])->name('invite.create');
+    Route::post('/invite', [InviteController::class, 'send'])->name('invite.send');
+});

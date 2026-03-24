@@ -80,51 +80,54 @@ public function dashboard()
 
     // ==========================
     // TEACHER MANAGEMENT
-    // ==========================
+    // ==========================/
 
-    public function editTeacher($id)
-    {
-        $teacher = User::role('Teacher')->findOrFail($id);
-        return view('principal.edit-teachers', compact('teacher'));
+          
+public function editTeacher($id)
+{
+    $teacher = User::role('Teacher')->findOrFail($id);
+    return view('principal.edit-teachers', compact('teacher'));
+}
+   public function updateTeacher(Request $request, $id)
+{
+    $teacher = User::role('Teacher')->findOrFail($id);
+
+    $request->validate([
+        'name' => ['nullable','string','max:255'],
+        'email' => ['nullable','email', Rule::unique('users','email')->ignore($teacher->id)],
+        'gender' => ['nullable', Rule::in(['male','female','other'])],
+        'father_name' => ['nullable','string','max:255'],
+        'mobile' => ['nullable','regex:/^[0-9]{10}$/'],
+        'address' => ['nullable','string','max:1000'],
+        'image' => ['nullable','image','mimes:jpeg,png,jpg','max:2048'],
+        'password' => ['nullable','string','min:8','confirmed'],
+    ]);
+
+    // Only update fields that are provided (not empty)
+    $fields = ['name','email','gender','father_name','mobile','address'];
+    foreach ($fields as $field) {
+        if ($request->filled($field)) {  // only update if the field is not empty
+            $teacher->$field = $request->$field;
+        }
     }
 
-    public function updateTeacher(Request $request, $id)
-    {
-        $teacher = User::role('Teacher')->findOrFail($id);
-
-        $request->validate([
-            'name' => ['required','string','max:255'],
-            'email' => ['required','email',Rule::unique('users','email')->ignore($teacher->id)],
-            'gender' => ['required',Rule::in(['male','female','other'])],
-            'father_name' => ['required','string','max:255'],
-            'mobile' => ['required','regex:/^[0-9]{10}$/'],
-            'address' => ['required','string','max:1000'],
-            'image' => ['nullable','image','mimes:jpeg,png,jpg','max:2048'],
-            'password' => ['nullable','string','min:8','confirmed'],
-        ]);
-
-        $teacher->fill($request->only([
-            'name','email','gender','father_name','mobile','address'
-        ]));
-
-        if ($request->hasFile('image')) {
-
-            if ($teacher->image) {
-                Storage::disk('public')->delete($teacher->image);
-            }
-
-            $teacher->image = $request->file('image')->store('profile_images','public');
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        if ($teacher->image) {
+            Storage::disk('public')->delete($teacher->image);
         }
-
-        if ($request->filled('password')) {
-            $teacher->password = Hash::make($request->password);
-        }
-
-        $teacher->save();
-
-        return redirect()->route('principal.dashboard')->with('success','Teacher updated successfully.');
+        $teacher->image = $request->file('image')->store('profile_images','public');
     }
 
+    // Handle password change
+    if ($request->filled('password')) {
+        $teacher->password = Hash::make($request->password);
+    }
+
+    $teacher->save();
+
+    return redirect()->route('principal.dashboard')->with('success','Teacher updated successfully.');
+}
 
     public function deleteTeacher($id)
     {
