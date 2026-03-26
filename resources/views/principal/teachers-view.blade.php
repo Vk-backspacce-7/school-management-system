@@ -49,7 +49,9 @@
                             @forelse($teachers as $teacher)
                                 <tr>
                                     <td class="ps-3 fw-bold">{{ $teacher->id }}</td>
-                                    <td>
+
+                                    {{--}}
+                                    {{-- <td>
                                         @if($teacher->image)
                                             <img src="{{ asset('storage/'.$teacher->image) }}" 
                                                  class="rounded border shadow-sm" 
@@ -58,6 +60,21 @@
                                         @else
                                             <div class="bg-light rounded d-flex align-items-center justify-content-center border" style="width: 50px; height: 50px;">
                                                 <i class="bi bi-person-badge text-secondary fs-4"></i>
+                                            </div>
+                                        @endif
+                                    </td>
+                                      --}}
+                                    <td class="text-center">
+                                        @if($teacher->image)
+                                            <img src="{{ asset('storage/'.$teacher->image) }}"
+                                                 class="rounded-circle border"
+                                                 data-bs-toggle="modal"
+                                                 data-bs-target="#imageModal{{ $teacher->id }}"
+                                                 style="cursor:pointer;width:50px;height:50px;object-fit:cover;">
+                                        @else
+                                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center border"
+                                                 style="width:50px;height:50px;">
+                                                <i class="bi bi-person text-secondary"></i>
                                             </div>
                                         @endif
                                     </td>
@@ -116,5 +133,30 @@
         </div>
     </div>
 </section>
+
+
+@foreach($teachers as $teacher)
+    @if($teacher->image)
+    <div class="modal fade" id="imageModal{{ $teacher->id }}" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Teacher Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body text-center">
+                    <img src="{{ asset('storage/'.$teacher->image) }}"
+                         class="img-fluid rounded"
+                         style="max-height:500px;object-fit:contain;">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @endif
+@endforeach
+
 </body>
 </html>
