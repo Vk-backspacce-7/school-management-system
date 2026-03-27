@@ -7,6 +7,7 @@ use App\Models\Subject;
 use App\Models\Classes;
 use App\Models\User;
 use App\Models\Student;
+use App\Support\ActivityNotifier;
 
 class SubjectController extends Controller
 {
@@ -32,6 +33,14 @@ class SubjectController extends Controller
             'name' => $request->name
         ]);
 
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Subject Created',
+            message: "Subject {$request->name} added on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard.index', [], false),
+            meta: ['activity' => 'subject_create', 'subject_name' => $request->name]
+        );
+
         return redirect()->route('principal.dashboard.index')->with('success', 'Subject added successfully.');
     }
 
@@ -53,6 +62,14 @@ class SubjectController extends Controller
 
         $subject->update(['name' => $request->name]);
 
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Subject Updated',
+            message: "Subject updated to {$request->name} on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard.index', [], false),
+            meta: ['activity' => 'subject_update', 'subject_id' => $subject->id]
+        );
+
         return redirect()->route('principal.dashboard.index')->with('success','Subject updated successfully.');
     }
 
@@ -60,8 +77,18 @@ class SubjectController extends Controller
     public function delete($id)
     {
         $subject = Subject::findOrFail($id);
+        $subjectName = $subject->name;
+        $subjectId = $subject->id;
         $subject->classes()->detach(); // detach from classes
         $subject->delete();
+
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Subject Deleted',
+            message: "Subject {$subjectName} deleted on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard.index', [], false),
+            meta: ['activity' => 'subject_delete', 'subject_id' => $subjectId]
+        );
 
         return redirect()->route('principal.dashboard.index')->with('success','Subject deleted successfully.');
     }
@@ -77,6 +104,14 @@ class SubjectController extends Controller
 
         $class = Classes::findOrFail($request->class_id);
         $class->subjects()->sync($request->subjects);
+
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Subjects Assigned',
+            message: "Subjects assigned to class {$class->class}-{$class->section} on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard.index', [], false),
+            meta: ['activity' => 'subject_assign', 'class_id' => $class->id, 'subject_count' => count($request->subjects)]
+        );
 
         return redirect()->route('principal.dashboard.index')->with('success', 'Subjects assigned successfully.');
     }
@@ -99,6 +134,14 @@ class SubjectController extends Controller
 
         $class = Classes::findOrFail($id);
         $class->subjects()->sync($request->subjects);
+
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Assigned Subjects Updated',
+            message: "Assigned subjects updated for class {$class->class}-{$class->section} on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard.index', [], false),
+            meta: ['activity' => 'subject_assign_update', 'class_id' => $class->id, 'subject_count' => count($request->subjects)]
+        );
 
         return redirect()->route('principal.dashboard.index')->with('success', 'Subjects updated successfully.');
     }

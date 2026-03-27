@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegistered;
+  
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Classes;
 use App\Models\Subject;
+use App\Support\ActivityNotifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
      use Spatie\Permission\Models\Role;
-     use App\Jobs\SendWelcomeEmailJob;
-     use Flash; // laracasts/flash
+     use Flash;  
 
 class PrincipalController extends Controller
 {
@@ -39,8 +41,7 @@ class PrincipalController extends Controller
                 'address' => ['required', 'string', 'max:1000'],
             ]);
 
-            $imagePath = $request->hasFile('image')
-                ? $request->file('image')->store('profile_images', 'public') : null;
+            $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile_images', 'public') : null;
 
               
                 $user = User::create([
@@ -58,8 +59,16 @@ class PrincipalController extends Controller
 
                 $user->assignRole($request->role);
 
-                /* Queue Email */
-                SendWelcomeEmailJob::dispatch($user);
+             
+                event(new UserRegistered($user));
+
+                ActivityNotifier::send(
+                    user: $request->user(),
+                    title: 'User Registered',
+                    message: "{$user->name} ({$user->role}) was registered on " . now()->format('d M Y, h:i A') . '.',
+                    actionUrl: route('principal.dashboard', [], false),
+                    meta: ['activity' => 'register_user', 'registered_user_id' => $user->id]
+                );
 
                 return redirect()->route('principal.dashboard')->with('success', 'Registration successful.');
             }
@@ -126,18 +135,36 @@ public function editTeacher($id)
 
     $teacher->save();
 
+    ActivityNotifier::send(
+        user: auth()->user(),
+        title: 'Teacher Updated',
+        message: "Teacher profile updated for {$teacher->name} on " . now()->format('d M Y, h:i A') . '.',
+        actionUrl: route('principal.dashboard', [], false),
+        meta: ['activity' => 'update_teacher', 'teacher_id' => $teacher->id]
+    );
+
     return redirect()->route('principal.dashboard')->with('success','Teacher updated successfully.');
 }
 
     public function deleteTeacher($id)
     {
         $teacher = User::role('Teacher')->findOrFail($id);
+        $teacherName = $teacher->name;
+        $teacherId = $teacher->id;
 
         if ($teacher->image) {
             Storage::disk('public')->delete($teacher->image);
         }
 
         $teacher->delete();
+
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Teacher Deleted',
+            message: "Teacher {$teacherName} was deleted on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard', [], false),
+            meta: ['activity' => 'delete_teacher', 'teacher_id' => $teacherId]
+        );
 
         return redirect()->route('principal.dashboard')->with('success','Teacher deleted successfully.');
     }
@@ -178,6 +205,14 @@ public function editTeacher($id)
             'class_id'=>$request->class_id,
             'age'=>$request->age
         ]);
+
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Student Created',
+            message: "Student {$user->name} was created on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard', [], false),
+            meta: ['activity' => 'create_student', 'student_user_id' => $user->id]
+        );
 
         return redirect()->route('principal.dashboard')->with('success','Student created successfully.');
     }
@@ -254,6 +289,14 @@ public function editTeacher($id)
 
         }
 
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Student Updated',
+            message: "Student {$user->name} was updated on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard', [], false),
+            meta: ['activity' => 'update_student', 'student_user_id' => $user->id]
+        );
+
         return redirect()->route('principal.dashboard')->with('success','Student updated successfully.');
     }
 
@@ -261,12 +304,22 @@ public function editTeacher($id)
     public function deleteStudent($id)
     {
         $user = User::findOrFail($id);
+        $studentName = $user->name;
+        $studentId = $user->id;
 
         if ($user->image) {
             Storage::disk('public')->delete($user->image);
         }
 
         $user->delete();
+
+        ActivityNotifier::send(
+            user: auth()->user(),
+            title: 'Student Deleted',
+            message: "Student {$studentName} was deleted on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('principal.dashboard', [], false),
+            meta: ['activity' => 'delete_student', 'student_user_id' => $studentId]
+        );
 
         return redirect()->route('principal.dashboard')->with('success','Student deleted successfully.');
     }

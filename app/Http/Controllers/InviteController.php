@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\InviteMail;
+use App\Events\InviteCreated;
+use App\Events\UserRegistered;
+// use App\Mail\InviteMail; // OLD IMPORT (commented for safe migration)
 use App\Models\Invite;
 use App\Models\User;
+use App\Support\ActivityNotifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Mail; // OLD IMPORT (commented for safe migration)
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -48,8 +51,20 @@ class InviteController extends Controller
         ]);
 
         try {
-            Mail::to($invite->email)->send(new InviteMail($invite));
+            // OLD CODE (commented for safe migration):
+            // Mail::to($invite->email)->send(new InviteMail($invite));
+
+            // NEW CODE:
+            event(new InviteCreated($invite, $request->user()));
         } catch (\Throwable $exception) {
+            ActivityNotifier::send(
+                user: $request->user(),
+                title: 'Invite Failed',
+                message: "Invite could not be sent to {$invite->email} on " . now()->format('d M Y, h:i A') . '.',
+                actionUrl: route('invite.create', [], false),
+                meta: ['activity' => 'invite_failed', 'invite_email' => $invite->email]
+            );
+
             $invite->delete();
             report($exception);
 
@@ -57,6 +72,14 @@ class InviteController extends Controller
                 ->withInput()
                 ->withErrors(['email' => 'Invite email could not be sent. Please verify SMTP settings and try again.']);
         }
+
+        ActivityNotifier::send(
+            user: $request->user(),
+            title: 'Invite Sent',
+            message: "Invite sent to {$invite->email} on " . now()->format('d M Y, h:i A') . '.',
+            actionUrl: route('invite.create', [], false),
+            meta: ['activity' => 'invite_sent', 'invite_id' => $invite->id, 'invite_email' => $invite->email]
+        );
 
         return back()->with('success', 'Invitation sent successfully.');
     }
@@ -119,6 +142,7 @@ class InviteController extends Controller
             ]);
 
             $user->assignRole('Teacher');
+            event(new UserRegistered($user));
             $invite->markAccepted();
         } catch (\Throwable $exception) {
             if ($imagePath !== null) {

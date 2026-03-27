@@ -1,10 +1,10 @@
-<section class="classes-section" id="classes" style="display:none;">
+<section class="classes-section dashboard-section" id="classes">
     <div class="container mt-5">
         
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-            <h2 class="fw-bold text-dark mb-0"><i class="bi bi-door-open-fill me-2"></i>Classes Management</h2>
+            <h2 class="fw-bold text-dark mb-0"><i class="bi bi-building me-2"></i>Classes Management</h2>
             <button type="button" class="btn btn-outline-secondary btn-sm shadow-sm" data-section="mainContent">
-                <i class="bi bi-arrow-left"></i> Back to Dashboard
+                <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
             </button>
         </div>
 

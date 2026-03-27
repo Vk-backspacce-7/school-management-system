@@ -6,6 +6,7 @@ use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubjectController;
 
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,16 @@ Route::middleware('guest')->group(function () {
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Notification routes (new)
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('index');
+        Route::post('/read-all', [NotificationController::class, 'markAllAsRead'])->name('read-all');
+        Route::delete('/clear-all', [NotificationController::class, 'clearAll'])->name('clear-all');
+        // OLD ROUTE REMOVED (commented for safe migration):
+        // Route::get('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read-link');
+        Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
+    });
 
     // -------------------------------
     // Principal Routes

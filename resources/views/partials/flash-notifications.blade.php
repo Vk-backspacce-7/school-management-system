@@ -2,58 +2,55 @@
 <style>
     .notification-container {
         position: fixed;
-        top: 20px;
+        top: 14px;
         left: 50%;
         transform: translateX(-50%);
-        z-index: 9999;
+        z-index: 2000;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
         align-items: center;
+        pointer-events: none;
     }
 
     .notification {
-        min-width: 300px;
-        max-width: 420px;
-        padding: 12px 14px;
-        border-radius: 10px;
+        min-width: min(92vw, 340px);
+        max-width: min(92vw, 460px);
+        padding: 10px 12px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
-        gap: 10px;
-        color: #f3f3f3;
-        background: rgba(20, 20, 20, 0.92);
+        gap: 8px;
+        color: #f7f7f8;
+        background: rgba(24, 24, 26, 0.94);
         border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
-        animation: slideFadeIn 0.4s ease forwards;
+        border-left: 3px solid #9d9da2 !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        animation: flashSlideIn 0.28s ease forwards;
+        pointer-events: auto;
     }
 
-    .notification.success {
-        border-left: 4px solid #22c55e !important;
-    }
-
-    .notification.error {
-        border-left: 4px solid #ef4444 !important;
-    }
-
+    .notification.success,
+    .notification.error,
     .notification.info {
-        border-left: 4px solid #3b82f6 !important;
+        border-left-color: #9d9da2 !important;
     }
 
     .notification .icon {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .notification .message {
         flex: 1;
-        font-size: 14px;
-        line-height: 1.4;
+        font-size: 13px;
+        line-height: 1.35;
     }
 
     .notification .close-btn {
         border: 0;
         background: transparent;
-        color: #f3f3f3;
-        font-size: 18px;
+        color: #f7f7f8;
+        font-size: 17px;
         line-height: 1;
         cursor: pointer;
     }
@@ -61,37 +58,32 @@
     .field-error {
         display: block;
         margin-top: 4px;
-        color: #dc2626;
+        color: #2b2b2f;
         font-size: 12px;
         font-weight: 500;
     }
 
     .is-invalid {
-        border-color: #dc2626 !important;
-        box-shadow: 0 0 0 0.12rem rgba(220, 38, 38, 0.16) !important;
+        border-color: #3d3d43 !important;
+        box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.1) !important;
     }
 
-    @keyframes slideFadeIn {
+    @keyframes flashSlideIn {
         from {
             opacity: 0;
-            transform: translateY(-10px);
+            transform: translateY(-8px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
         }
     }
 
-    @keyframes slideFadeOut {
+    @keyframes flashSlideOut {
         to {
             opacity: 0;
-            transform: translateY(-8px);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .notification {
-            min-width: 90vw;
+            transform: translateY(-6px);
         }
     }
 </style>
@@ -100,14 +92,15 @@
     document.addEventListener('DOMContentLoaded', function () {
         const notifications = document.querySelectorAll('.notification');
 
-        notifications.forEach((notification, index) => {
-            notification.style.animationDelay = `${index * 0.08}s`;
+        notifications.forEach(function (notification) {
+            const timeout = setTimeout(function () {
+                removeNotification(notification);
+            }, 4000);
 
-            const timeout = setTimeout(() => removeNotification(notification), 4200);
             const closeBtn = notification.querySelector('.close-btn');
 
             if (closeBtn) {
-                closeBtn.addEventListener('click', () => {
+                closeBtn.addEventListener('click', function () {
                     clearTimeout(timeout);
                     removeNotification(notification);
                 });
@@ -115,8 +108,10 @@
         });
 
         function removeNotification(notification) {
-            notification.style.animation = 'slideFadeOut 0.35s ease forwards';
-            setTimeout(() => notification.remove(), 350);
+            notification.style.animation = 'flashSlideOut 0.28s ease forwards';
+            setTimeout(function () {
+                notification.remove();
+            }, 280);
         }
     });
 </script>
