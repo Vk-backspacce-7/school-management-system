@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\InviteCreated;
+use App\Events\MessageSent;
 use App\Events\UserRegistered;
 use App\Listeners\SendInviteNotification;
+use App\Listeners\SendPrincipalChatNotification;
 use App\Listeners\SendUserRegisteredNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         InviteCreated::class => [
             SendInviteNotification::class,
+        ],
+        MessageSent::class => [
+            SendPrincipalChatNotification::class,
         ],
     ];
 

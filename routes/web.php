@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\TeacherController;
@@ -119,4 +120,9 @@ Route::get('/register', [PrincipalController::class, 'showRegister'])->name('pri
 Route::middleware(['auth', 'role:Principal'])->group(function () {
     Route::get('/invite', [InviteController::class, 'create'])->name('invite.create');
     Route::post('/invite', [InviteController::class, 'send'])->name('invite.send');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('chat.send');
 });

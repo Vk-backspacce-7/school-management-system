@@ -1,29 +1,35 @@
 @php
     $notificationBellUser = auth()->user();
+    $notificationRole = strtolower((string) ($notificationBellUser?->role ?? ''));
+    $showNotificationIcon = $notificationRole === 'principal';
+
     $bellUnreadCount = $notificationBellUser?->unreadNotifications()->count() ?? 0;
     $bellRecentNotifications = $notificationBellUser?->notifications()->latest()->take(15)->get() ?? collect();
 @endphp
 
-<div class="notification-bell dropdown dropup">
+@if($showNotificationIcon)
+<li class="nav-item interaction-item" data-interaction-item>
     <button
-        class="btn notification-bell-toggle"
+        class="interaction-icon-button"
         type="button"
         id="notificationBellToggle"
-        data-bs-toggle="dropdown"
-        data-bs-auto-close="outside"
+        data-panel-target="notificationPanel"
         aria-expanded="false"
         aria-label="Open notifications"
     >
-        <i class="bi bi-bell"></i>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 3a5 5 0 0 0-5 5v2.2c0 .7-.2 1.4-.6 2l-1.3 2a1 1 0 0 0 .8 1.5h12.2a1 1 0 0 0 .8-1.5l-1.3-2a3.7 3.7 0 0 1-.6-2V8a5 5 0 0 0-5-5Zm0 18a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 21Z" />
+        </svg>
+
         @if($bellUnreadCount > 0)
-            <span class="notification-bell-count">{{ $bellUnreadCount > 99 ? '99+' : $bellUnreadCount }}</span>
+            <span class="interaction-badge">{{ $bellUnreadCount > 99 ? '99+' : $bellUnreadCount }}</span>
         @endif
     </button>
 
-    <div class="dropdown-menu dropdown-menu-end notification-bell-menu p-0" aria-labelledby="notificationBellToggle">
-        <div class="notification-bell-head">
-            <strong class="small mb-0">Notifications</strong>
-            <div class="notification-bell-head-actions">
+    <section class="interaction-panel panel-notifications" id="notificationPanel" aria-label="Notifications">
+        <header class="panel-head">
+            <strong>Notifications</strong>
+            <div class="panel-head-actions">
                 @if($bellUnreadCount > 0)
                     <form action="{{ route('notifications.read-all') }}" method="POST">
                         @csrf
@@ -32,9 +38,9 @@
                 @endif
                 <a href="{{ route('notifications.index') }}" class="small text-decoration-none">View all</a>
             </div>
-        </div>
+        </header>
 
-        <div class="notification-bell-list">
+        <div class="panel-list" id="notificationPanelList">
             @forelse($bellRecentNotifications as $notification)
                 @php
                     $data = $notification->data ?? [];
@@ -44,12 +50,12 @@
                     $formattedTime = \Illuminate\Support\Carbon::parse($time)->format('d M Y, h:i A');
                 @endphp
 
-                <article class="notification-bell-item {{ $notification->read_at === null ? 'is-unread' : '' }}">
-                    <div class="notification-bell-title">{{ $title }}</div>
-                    <p class="notification-bell-message">{{ $message }}</p>
-                    <time class="notification-bell-time">{{ $formattedTime }}</time>
+                <article class="panel-item {{ $notification->read_at === null ? 'is-unread' : '' }}">
+                    <div class="panel-item-title">{{ $title }}</div>
+                    <p class="panel-item-copy">{{ $message }}</p>
+                    <time class="panel-item-time">{{ $formattedTime }}</time>
 
-                    <div class="notification-bell-row">
+                    <div class="panel-item-row">
                         @if($notification->read_at === null)
                             <form action="{{ route('notifications.read', $notification->id) }}" method="POST">
                                 @csrf
@@ -61,8 +67,9 @@
                     </div>
                 </article>
             @empty
-                <div class="px-3 py-3 small text-muted">No notifications yet.</div>
+                <div class="panel-empty">No notifications yet.</div>
             @endforelse
         </div>
-    </div>
-</div>
+    </section>
+</li>
+@endif

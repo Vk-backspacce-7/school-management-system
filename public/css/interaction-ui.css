@@ -1,0 +1,522 @@
+:root {
+    --ios-white: #ffffff;
+    --ios-black: #111111;
+    --ios-gray-50: #f7f7f7;
+    --ios-gray-100: #efefef;
+    --ios-gray-200: #dddddd;
+    --ios-gray-300: #c7c7c7;
+    --ios-gray-500: #7a7a7a;
+    --ios-gray-700: #4a4a4a;
+    --ios-radius-sm: 12px;
+    --ios-radius-md: 16px;
+    --ios-radius-lg: 20px;
+    --ios-shadow-soft: 0 8px 22px rgba(0, 0, 0, 0.12);
+    --ios-shadow-strong: 0 18px 42px rgba(0, 0, 0, 0.16);
+}
+
+.interaction-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.interaction-icon-button {
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--ios-gray-200);
+    border-radius: 999px;
+    background: var(--ios-white);
+    color: var(--ios-black);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--ios-shadow-soft);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    position: relative;
+}
+
+.interaction-icon-button:hover {
+    transform: translateY(-1px);
+    background: var(--ios-gray-50);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.interaction-icon-button svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.interaction-badge {
+    position: absolute;
+    top: -5px;
+    right: -3px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    border: 1px solid var(--ios-white);
+    background: var(--ios-black);
+    color: var(--ios-white);
+    font-size: 10px;
+    line-height: 17px;
+    text-align: center;
+    padding: 0 4px;
+}
+
+.interaction-panel {
+    position: fixed;
+    right: 14px;
+    top: 74px;
+    width: min(390px, calc(100vw - 20px));
+    border: 1px solid var(--ios-gray-200);
+    border-radius: var(--ios-radius-lg);
+    background: var(--ios-white);
+    box-shadow: var(--ios-shadow-strong);
+    overflow: hidden;
+    z-index: 1300;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.interaction-panel.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--ios-gray-100);
+    background: var(--ios-gray-50);
+}
+
+.panel-head strong {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ios-black);
+}
+
+.panel-head-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.interaction-panel .btn-link,
+.interaction-panel .panel-head a {
+    color: var(--ios-gray-700) !important;
+}
+
+.interaction-panel .btn-link:hover,
+.interaction-panel .panel-head a:hover {
+    color: var(--ios-black) !important;
+}
+
+.interaction-panel .btn-outline-dark {
+    border-color: var(--ios-gray-300) !important;
+    color: var(--ios-black) !important;
+    background: var(--ios-white) !important;
+}
+
+.interaction-panel .btn-outline-dark:hover {
+    border-color: var(--ios-black) !important;
+    background: var(--ios-black) !important;
+    color: var(--ios-white) !important;
+}
+
+.panel-list {
+    max-height: min(64vh, 460px);
+    overflow-y: auto;
+}
+
+.panel-item {
+    border-bottom: 1px solid var(--ios-gray-100);
+    padding: 12px 14px;
+    background: var(--ios-white);
+}
+
+.panel-item.is-unread {
+    background: var(--ios-gray-50);
+}
+
+.panel-item-title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ios-black);
+}
+
+.panel-item-copy {
+    margin: 4px 0;
+    font-size: 12px;
+    color: var(--ios-gray-700);
+}
+
+.panel-item-time {
+    font-size: 11px;
+    color: var(--ios-gray-500);
+}
+
+.panel-item-row {
+    margin-top: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-empty {
+    padding: 16px;
+    font-size: 12px;
+    color: var(--ios-gray-500);
+}
+
+.panel-chat {
+    width: min(460px, calc(100vw - 20px));
+    height: min(72vh, 620px);
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+.chat-panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--ios-gray-100);
+    background: var(--ios-gray-50);
+    cursor: grab;
+    user-select: none;
+}
+
+.panel-chat.is-dragging .chat-panel-head {
+    cursor: grabbing;
+}
+
+.chat-head-copy h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ios-black);
+}
+
+.chat-head-copy p {
+    margin: 2px 0 0;
+    font-size: 11px;
+    color: var(--ios-gray-500);
+}
+
+.panel-close-button {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--ios-gray-100);
+    color: var(--ios-gray-700);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.panel-close-button svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+}
+
+.panel-close-button:hover {
+    background: var(--ios-gray-200);
+}
+
+.chat-panel-body {
+    display: grid;
+    grid-template-columns: 124px 1fr;
+    min-height: 0;
+}
+
+.chat-participants {
+    border-right: 1px solid var(--ios-gray-100);
+    background: var(--ios-gray-50);
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.chat-participant-button {
+    width: 100%;
+    border: 1px solid var(--ios-gray-200);
+    border-radius: var(--ios-radius-sm);
+    background: var(--ios-white);
+    padding: 10px;
+    margin-bottom: 8px;
+    text-align: left;
+    color: var(--ios-black);
+    font-size: 12px;
+    line-height: 1.25;
+    position: relative;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.chat-participant-button:hover {
+    background: var(--ios-gray-50);
+}
+
+.chat-participant-button.active {
+    background: var(--ios-gray-100);
+    border-color: var(--ios-gray-300);
+}
+
+.chat-participant-role {
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+    text-transform: capitalize;
+    color: var(--ios-gray-500);
+}
+
+.chat-participant-unread {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--ios-black);
+    color: var(--ios-white);
+    font-size: 10px;
+    line-height: 16px;
+    text-align: center;
+}
+
+.chat-conversation-shell {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 0;
+    background: var(--ios-white);
+}
+
+.chat-messages {
+    overflow-y: auto;
+    padding: 14px;
+}
+
+.chat-message {
+    margin-bottom: 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    animation: message-fade-in 0.2s ease-in-out;
+}
+
+.chat-message.is-sender {
+    align-items: flex-end;
+}
+
+.chat-message.is-receiver {
+    align-items: flex-start;
+}
+
+.chat-bubble {
+    max-width: 86%;
+    border-radius: 15px;
+    padding: 8px 11px;
+    font-size: 12px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.chat-message.is-sender .chat-bubble {
+    background: #3a3a3a;
+    color: var(--ios-white);
+    border-bottom-right-radius: 5px;
+}
+
+.chat-message.is-receiver .chat-bubble {
+    background: #ececec;
+    color: var(--ios-black);
+    border-bottom-left-radius: 5px;
+}
+
+.chat-message-time {
+    font-size: 10px;
+    color: var(--ios-gray-500);
+}
+
+.chat-empty-state {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ios-gray-500);
+    padding: 10px;
+}
+
+.chat-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 10px;
+    border-top: 1px solid var(--ios-gray-100);
+    background: var(--ios-gray-50);
+}
+
+.chat-form input[type="text"] {
+    border: 1px solid var(--ios-gray-200);
+    border-radius: 999px;
+    background: var(--ios-white);
+    color: var(--ios-black);
+    font-size: 13px;
+    padding: 8px 12px;
+    outline: none;
+}
+
+.chat-form input[type="text"]:focus {
+    border-color: var(--ios-gray-500);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.07);
+}
+
+.chat-send-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    border: 1px solid var(--ios-gray-200);
+    background: var(--ios-black);
+    color: var(--ios-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-send-button svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.chat-send-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.chat-toast-container {
+    position: fixed;
+    top: 74px;
+    right: 14px;
+    width: min(320px, calc(100vw - 24px));
+    z-index: 1310;
+    pointer-events: none;
+}
+
+.chat-toast {
+    margin-top: 8px;
+    border-radius: var(--ios-radius-md);
+    border: 1px solid var(--ios-gray-200);
+    background: var(--ios-white);
+    color: var(--ios-black);
+    box-shadow: var(--ios-shadow-soft);
+    padding: 10px 12px;
+    animation: toast-fade-in 0.2s ease-in-out;
+}
+
+.chat-toast strong {
+    display: block;
+    font-size: 12px;
+}
+
+.chat-toast p {
+    margin: 3px 0 0;
+    font-size: 11px;
+    color: var(--ios-gray-700);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@keyframes message-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes toast-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 991px) {
+    .panel-chat {
+        width: min(420px, calc(100vw - 20px));
+        height: min(74vh, 580px);
+    }
+
+    .chat-panel-body {
+        grid-template-columns: 106px 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .interaction-icon-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .interaction-panel {
+        right: 8px;
+        left: 8px;
+        top: 64px;
+        width: auto;
+    }
+
+    .panel-chat {
+        left: 8px !important;
+        right: 8px !important;
+        top: auto !important;
+        bottom: 8px;
+        width: auto;
+        height: min(78vh, 620px);
+        border-radius: var(--ios-radius-md);
+    }
+
+    .chat-panel-head {
+        cursor: default;
+    }
+
+    .chat-panel-body {
+        grid-template-columns: 96px 1fr;
+    }
+
+    .chat-toast-container {
+        right: 8px;
+        left: 8px;
+        top: 64px;
+        width: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .interaction-panel,
+    .interaction-icon-button,
+    .chat-message,
+    .chat-toast {
+        transition: none !important;
+        animation: none !important;
+    }
+}
